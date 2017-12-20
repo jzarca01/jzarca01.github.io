@@ -1,6 +1,8 @@
 @import url('//fonts.googleapis.com/css?subset=latin,cyrillic-ext,latin-ext,cyrillic&family=Open+Sans+Condensed:300|Open+Sans:400,600,400italic,600italic|Merriweather:400,300,300italic,400italic,700,700italic|Roboto+Slab:400,300');
 @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css');
+
 /* === Core Styles === */
+
 body {
   background-color: #ffffff;
   color: #7f8c8d;
@@ -11,9 +13,11 @@ body {
   padding: 0;
   -webkit-font-smoothing: subpixel-antialiased;
 }
+
 body * {
   max-height: 1000000em;
 }
+
 h1,
 h2,
 h3,
@@ -24,10 +28,12 @@ dt,
 dd {
   font-family: "Merriweather", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
 }
+
 h1,
 .post-meta {
   text-align: center;
 }
+
 a,
 a:visited {
   color: #3498db;
@@ -35,10 +41,12 @@ a:visited {
   transition: color ease 0.7s;
   -webkit-transition: color ease 0.7s;
 }
+
 a:focus,
 a:hover {
   color: #02090e;
 }
+
 p,
 li,
 dt,
@@ -47,12 +55,15 @@ dd {
   font-weight: 100;
   line-height: 30px;
 }
+
 dt {
   font-weight: 400;
 }
+
 li {
   padding-left: 0.8em;
 }
+
 pre {
   font-family: "Consolas", Courier, monospace;
   font-size: 1em;
@@ -66,11 +77,13 @@ pre {
   word-wrap: break-word;
   background-color: rgba(0, 0, 0, 0.05);
 }
+
 p code {
   font-family: "Consolas", Courier, monospace;
   font-size: .8em;
   line-height: 1.2em;
 }
+
 h1 {
   color: #151515;
   font-family: "Roboto Slab", "Merriweather", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
@@ -80,6 +93,7 @@ h1 {
   margin: 0;
   padding: 0;
 }
+
 #site-head,
 article,
 article.preview,
@@ -89,25 +103,32 @@ a.archive-link,
   max-width: 600px;
   width: 90%;
 }
+
 #site-head img {
   max-width: 100%;
 }
+
 article.preview {
   margin-bottom: 4em;
 }
+
 article.preview p.readmore {
   font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
   margin-top: 1em;
   text-transform: uppercase;
   font-weight: 400;
 }
+
+
 /* === Header === */
+
 #blog-logo {
   display: block;
   max-width: 100px;
   margin: 50px auto 0;
   text-align: center;
 }
+
 #blog-logo div.bloglogo {
   width: 100px;
   height: 100px;
@@ -117,55 +138,66 @@ article.preview p.readmore {
   background-position: center center !important;
   background-color: #ffffff;
 }
+
 h1.blog-title,
 h2.blog-description {
   text-align: center;
 }
+
 h1.blog-title {
   font-size: 48px;
   line-height: 52px;
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
   padding: 0;
 }
+
 h2.blog-description {
-  border-bottom: 1px solid #ecf0f1;
-  border-top: 1px solid #ecf0f1;
-  margin-bottom: 2em;
+  margin-top: 5px;
+  margin-bottom: 10px;
   padding: .5em 1em;
   line-height: 1.2em;
 }
+
 section.footer-description {
   margin-bottom: 1em;
 }
+
 header.article-header,
 header.page-header {
   margin-bottom: 3em;
 }
+
+
 /* === Body === */
+
 section.author,
 section.share {
   width: 100%;
   text-align: left;
   text-transform: none;
 }
+
 section.share {
   margin-top: 1em;
   border-top: 1px solid #ecf0f1;
   padding-top: 1em;
   text-align: right;
 }
+
 section.author h4,
 section.author p,
 section.share p {
   padding: 0;
   margin: 0;
 }
+
 section.author h4 {
   font-family: "Roboto Slab", "Merriweather", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
   font-weight: 400;
   margin-bottom: 4px;
 }
+
 section.author p.attr,
 section.share p.info {
   font-size: 16px;
@@ -173,21 +205,26 @@ section.share p.info {
   text-transform: uppercase;
   font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
 }
+
 section.share p.info.prompt {
   top: -5px;
   position: relative;
 }
+
 section.author p.attr {
   margin-bottom: 2px;
 }
+
 section.share p.info {
   display: inline-block;
 }
+
 section.author p.bio {
   font-size: 16px;
   margin-left: 82px;
   line-height: 1.4em;
 }
+
 blockquote {
   font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
   font-size: 1.6em;
@@ -199,6 +236,7 @@ blockquote {
   margin-left: 1em;
   padding-left: 1em;
 }
+
 blockquote p {
   font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
   font-size: 1.6em;
@@ -207,6 +245,7 @@ blockquote p {
   font-style: italic;
   text-transform: uppercase;
 }
+
 .post-meta {
   color: #95a5a6;
   font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
@@ -216,10 +255,12 @@ blockquote p {
   margin-bottom: 1.2em;
   text-transform: uppercase;
 }
+
 .tags {
   font-size: 16px;
   margin-bottom: 0.6em;
 }
+
 div.authorimage {
   width: 70px;
   height: 70px;
@@ -230,12 +271,14 @@ div.authorimage {
   margin-right: 10px;
   float: left;
 }
+
 h1.post-title a,
 h1.blog-title a {
   color: #151515;
   transition: color ease 0.7s;
   -webkit-transition: color ease 0.7s;
 }
+
 h1.post-title a:focus,
 h1.post-title a:hover,
 h1.blog-title a:focus,
@@ -243,23 +286,28 @@ h1.blog-title a:hover {
   color: #3498db;
   text-decoration: none;
 }
+
 h2 {
   font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
   margin-top: 2em;
   text-transform: uppercase;
   font-weight: 300;
 }
+
 section.post-content img {
   display: block;
   margin: 0 auto;
   max-width: 100%;
 }
+
 section.preview.archive h2 {
   text-align: left;
 }
+
 section.author {
   overflow: hidden;
 }
+
 img.userimage {
   width: 70px;
   max-width: 70px;
@@ -268,13 +316,19 @@ img.userimage {
   margin-right: 10px;
   float: left;
 }
+
+
 /* === Footer === */
+
 footer {
   background: rgba(0, 0, 0, 0.05);
   margin: 4em 0 0;
   padding: 2em 0;
   text-align: center;
+  bottom: 0;
+  width: 100%;
 }
+
 footer section {
   font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
   font-weight: 300;
@@ -284,12 +338,16 @@ footer section {
   text-transform: uppercase;
   width: 90%;
 }
+
 footer.post-footer {
   background: none;
   border-top: 1px solid #ecf0f1;
   margin-top: 1em;
 }
+
+
 /* === Navigation and Pagination === */
+
 nav {
   border-bottom: 1px solid #ecf0f1;
   border-top: 1px solid #ecf0f1;
@@ -298,6 +356,7 @@ nav {
   margin: 20px auto 2em auto;
   max-width: 600px;
 }
+
 nav ul {
   list-style: none;
   margin: 0 auto;
@@ -306,6 +365,7 @@ nav ul {
   overflow: hidden;
   text-align: center;
 }
+
 nav ul li {
   display: inline-block;
   font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
@@ -316,35 +376,43 @@ nav ul li {
   text-align: center;
   text-transform: uppercase;
 }
+
 nav ul li a {
   display: block;
   padding: .5em 0;
 }
+
 nav.menu {
   margin-bottom: 2.5em;
 }
+
 nav.menu li {
   margin: 0 .5em;
   padding: 0;
 }
+
 nav.menu li:last-child {
   margin: 0;
 }
+
 @media only screen and (min-width: 320px) and (max-width: 662px) {
   nav.menu li {
     display: block;
   }
 }
+
 nav.pagination li:first-child {
   margin-left: 0;
   margin-right: 0;
   text-align: right;
 }
+
 nav.pagination li:last-child {
   margin-left: 0;
   margin-right: 0;
   text-align: left;
 }
+
 a.archive-link {
   border-bottom: 1px solid #ecf0f1;
   border-top: 1px solid #ecf0f1;
@@ -358,6 +426,7 @@ a.archive-link {
   text-align: center;
   text-transform: uppercase;
 }
+
 .pagination {
   position: relative;
   width: 90%;
@@ -369,9 +438,11 @@ a.archive-link {
   text-align: center;
   padding: 0.5em 0;
 }
+
 .pagination a {
   color: #3498db;
 }
+
 .older-posts,
 .newer-posts {
   position: absolute;
@@ -381,32 +452,41 @@ a.archive-link {
   transition: color ease 0.7s;
   -webkit-transition: color ease 0.7s;
 }
+
 .older-posts {
   right: 0;
 }
+
 .page-number {
   display: inline-block;
   padding: 0;
   margin: 0;
 }
+
 .newer-posts {
   left: 0;
 }
+
 .older-posts:hover,
 .newer-posts:hover {
   color: #02090e;
   text-decoration: none;
 }
+
+
 /* === Extras === */
+
 .gist {
   margin-top: 1em;
   margin-bottom: 1em;
   border-collapse: collapse !important;
 }
+
 .gist .gist-file {
   font-family: "Consolas", Courier, monospace;
   border: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
+
 .gist .gist-file .gist-meta {
   font-family: "Open Sans Condensed", "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif !important;
   font-weight: 300 !important;
@@ -414,30 +494,37 @@ a.archive-link {
   display: none !important;
   /* Hide GitHub attribution */
 }
+
 .gist .gist-file .gist-meta a:visited {
   color: #3498db !important;
 }
+
 .gist .gist-file .gist-data {
   background: #fdfdfd !important;
   border-bottom: none !important;
   /* Hide GitHub attribution */
 }
+
 .gist .gist-file .gist-data .line-numbers {
   border-right: none !important;
 }
+
 .gist .gist-file .gist-data .line-numbers,
 .gist .gist-file .gist-meta {
   background-color: rgba(0, 0, 0, 0.05) !important;
 }
+
 .gist .gist-file .gist-data .line-numbers,
 .gist .gist-file .gist-data .line-pre {
   line-height: 1.2em !important;
 }
+
 .hidden {
   text-indent: -9999px;
   visibility: hidden;
   display: none;
 }
+
 @font-face {
   font-family: 'icons';
   src: url('../fonts/icons.eot');
@@ -445,6 +532,7 @@ a.archive-link {
   font-weight: normal;
   font-style: normal;
 }
+
 .icon-ghost,
 .icon-feed {
   font-family: 'icons';
@@ -457,44 +545,60 @@ a.archive-link {
   -webkit-font-smoothing: antialiased;
   text-decoration: none;
 }
+
 .icon-ghost:before {
   content: "\e000";
 }
+
 .icon-feed:before {
   content: "\e001";
 }
+
 .icon-ghost {
   font-size: 12px;
   position: relative;
   top: -1px;
 }
+
+
 /* Comments */
+
 #disqus_thread {
   color: #787878;
 }
+
+
 /* Tables */
+
 table {
   width: 100%;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, "Nimbus L", sans-serif;
   border-collapse: collapse;
   margin: 1em 0 3em;
 }
+
 table td {
   padding: .5em;
 }
+
 table thead {
   font-weight: 600;
   border-bottom: 1px solid #ecf0f1;
 }
+
 table tbody tr:nth-child(even) {
   background-color: #ecf0f1;
   border-top: 1px solid #e3e9eb;
   border-bottom: 1px solid #e3e9eb;
 }
+
 table tfoot {
   border-top: 1px solid #ecf0f1;
 }
+
+
 /* === Media Queries === */
+
 @media only screen and (min-width: 320px) and (max-width: 500px) {
   footer section span.copyright {
     display: block;
@@ -515,4 +619,24 @@ table tfoot {
   .page-number {
     display: block;
   }
+}
+
+.post-with-image {
+  width: 100%;
+}
+
+.post-with-image .circular {
+  object-position: center; /* Center the image within the element */
+  height: 120px;
+  width: 120px;
+  border-radius: 200px;
+  -webkit-border-radius: 200px;
+  -moz-border-radius: 200px;
+  display: inline-block;
+}
+
+.post-with-image p {
+  width: 70%;
+  margin-left: 5%;
+  display: inline-block;
 }
