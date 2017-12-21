@@ -1,4 +1,120 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Le Blog du Chabbat</title><description>Fooding et coding du vendredi soir au samedi soir</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>Le Blog du Chabbat</title><link>http://localhost:2368/</link></image><generator>Ghost 1.19</generator><lastBuildDate>Thu, 21 Dec 2017 18:23:35 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Créez votre premier skill pour Alexa : Partie 1, le fonctionnement</title><description>Créez votre premier skill pour Alexa: Partie 1, le fonctionnement</description><link>http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-1/</link><guid isPermaLink="false">5a3a8d79aa9a03375526097f</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Wed, 20 Dec 2017 18:00:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" alt="Créez votre premier skill pour Alexa : Partie 1, le fonctionnement"&gt;&lt;p&gt;&lt;em&gt;Cet article est paru en premier lieu sur le blog de JS-Republic: &lt;a href="http://blog.js-republic.com/alexa-creer-votre-skill-partie-1/"&gt;http://blog.js-republic.com/alexa-creer-votre-skill-partie-1/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Le Blog du Chabbat</title><description>Fooding et coding du vendredi soir au samedi soir</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>Le Blog du Chabbat</title><link>http://localhost:2368/</link></image><generator>Ghost 1.19</generator><lastBuildDate>Thu, 21 Dec 2017 18:34:15 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Créez votre premier skill pour Alexa : Partie 2, la mise en pratique</title><description>Créez votre premier skill pour Alexa: Partie 2, la mise en pratique.</description><link>http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-2/</link><guid isPermaLink="false">5a3a8ff1aa9a033755260980</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Thu, 21 Dec 2017 18:30:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/amazonecho_4-100599473-orig.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/amazonecho_4-100599473-orig.jpg" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;p&gt;&lt;em&gt;Cet article est paru en premier lieu sur le blog de JS-Republic: &lt;a href="http://blog.js-republic.com/alexa-creer-votre-skill-partie-2/"&gt;http://blog.js-republic.com/alexa-creer-votre-skill-partie-2/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Dans cette partie nous allons voir comment créer votre premier skill pour connaître la météo dans n’importe quelle ville d’Europe et à la fin de cet article vous pourrez repartir avec, c’est promis.&lt;/p&gt;
+&lt;p&gt;Maintenant que vous avez assimilé tous les concepts importants associés à la création de skills pour Alexa, nous pouvons enfin rentrer dans le vif du sujet. Si ce n’est pas le cas, n’hésitez surtout pas à relire la première partie de cet article.&lt;/p&gt;
+&lt;h3 id="lesprrequispourcettepartie"&gt;Les pré-requis pour cette partie :&lt;/h3&gt;
+&lt;p&gt;– Un compte sur le portail développeur Amazon (&lt;a href="https://developer.amazon.com/edw/home.html#/"&gt;https://developer.amazon.com/edw/home.html#/&lt;/a&gt;)&lt;br&gt;
+– Votre environnement de test&lt;br&gt;
+– Node 6 et npm installés (&lt;a href="https://nodejs.org/"&gt;https://nodejs.org/&lt;/a&gt;)&lt;br&gt;
+– Les concepts de base de ES6&lt;br&gt;
+– Votre éditeur de code favori&lt;/p&gt;
+&lt;h2 id="linstallationdeslibrairies"&gt;L’INSTALLATION DES LIBRAIRIES&lt;/h2&gt;
+&lt;p&gt;Ici, on fait au plus simple.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/media.giphy.com/media/wVJYDdgvARMJy/giphy.gif?resize=388%2C220&amp;amp;ssl=1" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mkdir MyAwesomeSkill
+cd MyAwesomeSkill
+npm init
+ 
+npm install —save alexa-skill-kit yahoo-weather
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Une petite explication s’impose: Alexa-skill-kit propose une première couche d’abstraction pour la librairie officielle d’Amazon, afin de rendre le développement le plus simple et le plus intuitif possible.&lt;br&gt;
+Yahoo-weather, quant à lui, est tout simplement un wrapper pour l’API Météo de Yahoo&lt;/p&gt;
+&lt;p&gt;Pour plus d’informations, vous pouvez consulter les repo &lt;a href="https://github.com/stojanovic/alexa-skill-kit"&gt;https://github.com/stojanovic/alexa-skill-kit&lt;/a&gt; et &lt;a href="https://github.com/mamal72/node-yahoo-weather"&gt;https://github.com/mamal72/node-yahoo-weather&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="lecode"&gt;LE CODE&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;INDEX.JS&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const alexaSkillKit = require('alexa-skill-kit')
+const intent = require('./lib/Intents')
+ 
+exports.handler = function(event, context) {
+    alexaSkillKit(event, context, parsedMessage =&amp;gt; {
+        // console.log(JSON.stringify(parsedMessage))
+        return intent(parsedMessage)
+    })
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;LIB/INTENTS.JS&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const weather = require('yahoo-weather')
+ 
+module.exports = function(parsedMessage) {  
+    if (parsedMessage.type === 'IntentRequest' &amp;amp;&amp;amp; parsedMessage.intent.name === 'GetWeather') {
+        return weather(parsedMessage.intent.slots.Location.value)
+          .then(info =&amp;gt; info.item)
+          .then(item =&amp;gt; item.condition)
+          .then(condition =&amp;gt; {
+            //console.log('info', condition)
+            return `It is currently ${condition.text} with ${condition.temp} degrees in ${parsedMessage.intent.slots.Location.value}`
+          })
+          .catch(() =&amp;gt; {
+            return `Hm, I can't find any weather data for ${parsedMessage.intent.slots.Location.value}.`
+          })
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Vous vous souvenez du concept d’Intent, de Slots et d’Utterances, n’est-ce pas ? Si ce n’est pas le cas, je vous invite à relire les sections correspondantes dans la première partie de cet article.&lt;/p&gt;
+&lt;p&gt;Dans l’Intent Schema, nous avions défini la fonction GetWeather qui prenait comme Slot un objet Location de type AMAZON.EUROPE_CITY&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;intents&amp;quot;: [
+        {
+            &amp;quot;intent&amp;quot;: &amp;quot;GetWeather&amp;quot;,
+            &amp;quot;slots&amp;quot;: [
+                {
+                    &amp;quot;name: &amp;quot;Location&amp;quot;,
+                    &amp;quot;type&amp;quot;: &amp;quot;AMAZON.EUROPE_CITY&amp;quot;
+                }
+            ]
+        }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et dans le fichier de Sample Utterances, nous décrivions différentes manières d’appeler cette fonction à partir d’Alexa.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;GetWeather what is the weather in {Location}
+GetWeather weather in {Location}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ainsi, lorsque le skill est appelé par l’utilisateur, il saura quelle fonction exécuter.&lt;br&gt;
+Lorsque l’utilisateur dira &lt;strong&gt;« Alexa, ask My Awesome Skill for the weather in Paris »&lt;/strong&gt;, notre skill renverra &lt;strong&gt;« It is currently Sunny with 20 degrees in Paris »&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://media.giphy.com/media/g3MjnaLkNl19C/giphy.gif" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;/p&gt;
+&lt;p&gt;Il ne vous reste plus qu’à zipper votre projet pour passer à la suite.&lt;/p&gt;
+&lt;p&gt;Petite astuce pour les utilisateurs de Mac et de Linux: à partir de votre terminal, depuis le répertoire du projet, entrez la commande suivante pour zipper le projet.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;zip -r ../MyAwesomeSkill.zip *
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le code est également disponible à cette adresse : &lt;a href="https://github.com/jzarca01/alexaskill-jsrepublic"&gt;https://github.com/jzarca01/alexaskill-jsrepublic&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="envoyezleskillsurlesserveursamazon"&gt;ENVOYEZ LE SKILL SUR LES SERVEURS AMAZON&lt;/h2&gt;
+&lt;p&gt;Les ressources créées dans Amazon Web Services sont chacune identifiées de façon unique par un Amazon Resource Name (ARN).&lt;br&gt;
+Dans cette partie, nous allons créer une fonction Lambda sur les serveurs d’Amazon et y envoyer notre projet compressé.&lt;/p&gt;
+&lt;p&gt;Munissez vous de vos identifiants Amazon Developer et rendez vous à l’adresse suivante : &lt;a href="https://console.aws.amazon.com/?nc2=h_m_mc"&gt;https://console.aws.amazon.com/?nc2=h_m_mc&lt;/a&gt;&lt;br&gt;
+Puis cliquez en haut à gauche sur « Services » puis « Lambda »&lt;/p&gt;
+&lt;p&gt;￼&lt;img src="https://i1.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/1.png?w=629" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa AWS Lambda"&gt;&lt;/p&gt;
+&lt;p&gt;Il ne vous reste plus qu’a cliquer sur « Créer une fonction Lambda » puis sélectionner « Fonction vide ».&lt;/p&gt;
+&lt;p&gt;Sélectionnez « Kit Alexa Skills » parmi la liste des déclencheurs.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/2.png?w=912" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Kit AVS Skill"&gt;￼&lt;/p&gt;
+&lt;p&gt;C’est dans l’onglet « Configurer une fonction » que notre code sera chargé sur les serveurs Amazon.&lt;br&gt;
+Renseignez un nom et choisissez votre environnement d’exécution. Ici, choisissez « NodeJS 6.10 » puisque notre code utilise la syntaxe ES6.&lt;br&gt;
+Le nom n’a pas d’importance, il ne sera pas réutilisé plus tard.&lt;/p&gt;
+&lt;p&gt;Puis dans la section suivante, choisissez dans la liste déroulante « Type d’entrée de code » l’option « Charger un fichier ZIP ».&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/3.png?w=493" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa ZIP"&gt;￼&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/4.png?w=933" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa ZIP Recap"&gt;&lt;/p&gt;
+&lt;p&gt;￼Enfin, après la page de récapitulatif, il ne vous reste plus qu’a cliquer sur « Créer la fonction » pour passer à l’étape suivante.&lt;/p&gt;
+&lt;p&gt;Oh et une dernière chose, notez l’adresse ARN de votre fonction, vous en aurez besoin pour la prochaine partie de cette article.&lt;/p&gt;
+&lt;h2 id="enregistrezvotreskillauprsdamazon"&gt;ENREGISTREZ VOTRE SKILL AUPRÈS D’AMAZON&lt;/h2&gt;
+&lt;p&gt;Munissez vous de vos identifiants Amazon Developer et rendez vous à l’adresse suivante : &lt;a href="https://developer.amazon.com/edw/home.html#/skills"&gt;https://developer.amazon.com/edw/home.html#/skills&lt;/a&gt;&lt;br&gt;
+Si jusque là vous n’aviez pas crée votre compte, c’est le moment.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i1.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/5.png?w=1202" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Developer Console"&gt;&lt;/p&gt;
+&lt;p&gt;Puis cliquez sur le bouton « Add a New Skill » en haut à droite de l’écran.&lt;/p&gt;
+&lt;p&gt;A partir d’ici, vous êtes guidés tout au long du processus pour fournir toutes les informations nécessaires à la configuration de votre nouveau skill.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/6.png?w=642" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Skill Information"&gt;￼&lt;/p&gt;
+&lt;p&gt;Dans la section « Interaction Model », vous retrouvez le « Intent Schema » ainsi que les « Sample Utterances » dont nous ne cessons de parler depuis la première partie de cet article.￼Alexa Intent Schema&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/8.png?w=830" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Sample Utterances"&gt;&lt;/p&gt;
+&lt;p&gt;Il est tout à fait possible de créer un skill multilingue, mais nous n’en parlerons pas dans cet article. Si toutefois le sujet vous intéresse, voici le lien vers la documentation officielle (&lt;a href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages"&gt;https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Enfin, dans la section « Configuration », il vous est demandé si votre skill est hébergé sur les serveurs Amazon ou bien sur un serveur privé. Ici, nous avons cherché à aller au plus simple, chez Amazon. C’est là que l’adresse ARN que vous avez notée précédemment servira. Elle indique l’adresse où votre skill est exécuté.&lt;/p&gt;
+&lt;p&gt;￼&lt;img src="https://i1.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/9.png?w=706" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Global Fields ARN"&gt;&lt;/p&gt;
+&lt;p&gt;Si tout s’est bien passé, le résultat du simulateur correspondra à ce que nous attendions.&lt;/p&gt;
+&lt;p&gt;￼&lt;img src="https://i1.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/10.png?w=817" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Service Simulator"&gt;&lt;/p&gt;
+&lt;p&gt;Une dernière étape pour profiter pleinement de votre skill durement codé, l’activation.&lt;br&gt;
+Comme expliqué dans la première partie de cet article, les skills ne sont pas téléchargés sur votre device. Ils sont simplement activés depuis votre dashboard.&lt;br&gt;
+Par défaut, votre skill est activé, mais si ce n’était pas le cas, il faudrait vous connecter via l’application mobile Alexa pour l’activer depuis la section ‘Skills’.&lt;/p&gt;
+&lt;p&gt;Et tant qu’ils ne sont pas soumis pour une validation par Amazon, seulement le compte développeur y a accès.&lt;br&gt;
+En attendant, libérez votre créativité pour créer des skills toujours plus merveilleux.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i1.wp.com/media.giphy.com/media/106holZERgWSFG/giphy.gif?resize=413%2C234&amp;amp;ssl=1" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;/p&gt;
+&lt;p&gt;Merci de m’avoir lu, et si l’article vous a plu, n’hésitez pas à le partager sur les réseaux sociaux.&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Créez votre premier skill pour Alexa : Partie 1, le fonctionnement</title><description>Créez votre premier skill pour Alexa: Partie 1, le fonctionnement</description><link>http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-1/</link><guid isPermaLink="false">5a3a8d79aa9a03375526097f</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Wed, 20 Dec 2017 18:00:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" alt="Créez votre premier skill pour Alexa : Partie 1, le fonctionnement"&gt;&lt;p&gt;&lt;em&gt;Cet article est paru en premier lieu sur le blog de JS-Republic: &lt;a href="http://blog.js-republic.com/alexa-creer-votre-skill-partie-1/"&gt;http://blog.js-republic.com/alexa-creer-votre-skill-partie-1/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Alexa, si vous l’ignoriez, c’est le joujou high-tech à la mode. C’est l’assistant conversationnel avec lequel vous interagissez par la voix. Vous pouvez lui poser tout un tas de questions, plugger des « skills » et même contrôler vos installations domotiques par la voix. Les « skills », ce sont les applications que l’on appelle et contrôle par la voix.&lt;/p&gt;
 &lt;p&gt;Alexa, c’est également l’interface au travers de laquelle les marques interagiront avec leurs clients demain. Et si l’on connaît le même engouement que pour le marché des applications mobile, mieux vaut être prêt pour obtenir sa part du gâteau.&lt;/p&gt;
 &lt;p&gt;Alors qu’un scandale sur les techniques d’espionnage vient d’éclater et qu’une vidéo remettant en question les liens entre Amazon et la CIA est devenue virale, il n’y avait pas de meilleur moment pour écrire cet article.&lt;/p&gt;
