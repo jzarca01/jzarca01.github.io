@@ -7,7 +7,9 @@
         {{#post}}
 
         <header>
-        {{#if tags}}<div class="post-meta tags">Posté dans {{tags}}</div>{{/if}}
+        {{#if tags}}
+        <!--<div class="post-meta tags">Posté dans {{tags}}</div>-->
+            {{/if}}
         <h1 class="post-title">{{{title}}}</h1>
         <div class="post-meta"><time class="post-date" datetime="{{date format="YYYY-MM-DDTHH:mm:ss.SS\Z"}}">...</time></div>
         </header>
@@ -17,7 +19,7 @@
         </section>
 
         <section class="share">
-            <p class="info prompt">Partager ce post</p>
+            <p class="info prompt">Partager cet article</p>
             <div class="share_links">
                 <a href="http://twitter.com/share?text={{title}}&url={{url absolute="true"}}"
                     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
