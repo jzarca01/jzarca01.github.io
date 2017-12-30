@@ -634,12 +634,18 @@ table tfoot {
   -webkit-border-radius: 200px;
   -moz-border-radius: 200px;
   display: inline-block;
+  overflow: hidden;
 }
 
 .post-with-image p {
   width: 70%;
   margin-left: 5%;
   display: inline-block;
+}
+
+.post-with-image img {
+  max-height: 120px;
+  width:auto;
 }
 
 .button {
