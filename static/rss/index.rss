@@ -1,4 +1,89 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Le Blog du Chabbat</title><description>Fooding et coding du vendredi soir au samedi soir</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>Le Blog du Chabbat</title><link>http://localhost:2368/</link></image><generator>Ghost 1.19</generator><lastBuildDate>Sat, 17 Feb 2018 15:32:32 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Les 4 choses que j'ai apprises après mon premier talk technique</title><description>&lt;div class="kg-card-markdown"&gt;&lt;p&gt;La semaine dernière j'ai donné mon deuxième talk sur le développement JavaScript, où j'ai parlé de &lt;a href="http://truffleframework.com/"&gt;Truffle&lt;/a&gt; et &lt;a href="https://soliditylang.com/"&gt;Solidity&lt;/a&gt; à un groupe de développeurs de chez JS-Republic.&lt;br&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Le Blog du Chabbat</title><description>Fooding et coding du vendredi soir au samedi soir</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>Le Blog du Chabbat</title><link>http://localhost:2368/</link></image><generator>Ghost 1.19</generator><lastBuildDate>Sat, 17 Mar 2018 12:51:15 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle</title><description>&lt;div class="kg-card-markdown"&gt;&lt;p&gt;Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.&lt;/p&gt;
+&lt;p&gt;Les solutions de Machine Learning sont depuis longtemps disponibles dans le cloud via des API, mais elles demandaient une connexion&lt;/p&gt;&lt;/div&gt;</description><link>http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/</link><guid isPermaLink="false">5aad0e5b54c16c6aed139ec7</guid><dc:creator>Jérémie Zarca</dc:creator><pubDate>Sat, 17 Mar 2018 12:50:24 GMT</pubDate><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;p&gt;Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.&lt;/p&gt;
+&lt;p&gt;Les solutions de Machine Learning sont depuis longtemps disponibles dans le cloud via des API, mais elles demandaient une connexion internet et leur temps de traitement pouvait s'avérer long et coûteux à la fois.&lt;/p&gt;
+&lt;p&gt;Avec la sortie d'iOS 11, Apple a mis à disposition des développeurs sa librairie de Machine Learning, CoreML. Désormais, il n'est plus nécessaire d'avoir un serveur puissant pour traiter les reqûetes ou faire appel à une API tierce. CoreML s'occupe de tout avec la puissance de calcul de votre smartphone.&lt;/p&gt;
+&lt;p&gt;Vous êtes curieux de savoir comment l'intégrer dans vos applications ? C'est plus simple que ce que vous pourriez penser.&lt;/p&gt;
+&lt;p&gt;Prenons comme exemple, la célèbre application parodique Not Hotdog, découverte dans la série Silicon Valley, qui, lorsque l'utilisateur pointe son smartphone vers un objet, lui dit instantanément si ce dernier regarde un hotdog ou non.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://media.giphy.com/media/fHcA1ZdPDZqxfrNY9n/giphy.gif" alt="Not hotdog"&gt;&lt;/p&gt;
+&lt;h2 id="cequevousallezapprendredanscettepartie"&gt;Ce que vous allez apprendre dans cette partie&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Installer votre environnement&lt;/li&gt;
+&lt;li&gt;Collecter des données&lt;/li&gt;
+&lt;li&gt;Créer votre modèle de classification d'image avec Turi Create&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="lesprrequis"&gt;Les prérequis&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;macOS 10.12+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ou Linux (avec glibc 2.12+)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ou Windows 10 (via WSL)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Python 2.7, 3.5 ou 3.6&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;une architecture x86_64&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="questcequeturicreate"&gt;Qu'est-ce que Turi Create ?&lt;/h2&gt;
+&lt;p&gt;Il s'agit d'un outil qui « simplifie le développement de modèles de machine learning personnalisés », pouvant être ensuite exploités dans des applications utilisant la librairie CoreML.&lt;br&gt;
+Turi Create se base sur le framework de Deep Learning &lt;a href="https://mxnet.apache.org/"&gt;MXNet d'Apache&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Turi Create met à disposition des développeurs une technologie souple pour classifier des images, détecter des objets, concevoir des systèmes de recommandations, ...&lt;br&gt;
+L'outil est extrêmement simple d'utilisation, flexible, et rapide.&lt;/p&gt;
+&lt;h2 id="soninstallation"&gt;Son installation&lt;/h2&gt;
+&lt;p&gt;Comme pour beaucoup d'outils de Machine Learning, &lt;strong&gt;python&lt;/strong&gt; est le langage utilisé. Mais ne vous en faites pas, le code est très simple à comprendre.&lt;/p&gt;
+&lt;p&gt;Il est recommandé d'utiliser un environnement virtuel, &lt;strong&gt;virtualenv&lt;/strong&gt;, en entrant la commande&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install virtualenv
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Si vous n'avez pas pip, le gestionnaire de paquets de Python, vous pouvez l'installer grâce à &lt;a href="https://brew.sh/"&gt;Homebrew&lt;/a&gt; en entrant la commande&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;brew install pip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Puis,&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// Créer un environnement virtuel Python
+cd ~
+virtualenv venv
+
+// Activer votre environnement virtuel
+source ~/venv/bin/activate
+
+// Installer Turi Create
+pip install -U turicreate
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id="collecterdesdonnes"&gt;Collecter des données&lt;/h2&gt;
+&lt;p&gt;Avant de pouvoir entraîner un modèle, il nous faut des données.&lt;/p&gt;
+&lt;p&gt;Ces données, on peut les trouver sur le site &lt;a href="http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/www.image-net.org"&gt;ImageNet&lt;/a&gt; qui est une très large base de données d'images, avec plus de 14 millions de résultats.&lt;/p&gt;
+&lt;p&gt;Pour notre projet, nous avons besoin de deux catégories d'images: Hotdog et... Not Hotdog.&lt;/p&gt;
+&lt;p&gt;Voici le lien pour la première: &lt;a href="http://www.image-net.org/synset?wnid=n07697537"&gt;http://www.image-net.org/synset?wnid=n07697537&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/hotdog.png" alt="So many hotdogs"&gt;&lt;/p&gt;
+&lt;p&gt;On peut également récupérer tous les liens en utilisant l'API publique, via le bouton Download dans l'onglet Downloads&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/download_button.png" alt="download button"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537"&gt;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Vous pourrez retrouver sur le repository &lt;a href="https://github.com/jzarca01/turicreate-easy-scripts"&gt;turicreate-easy-scripts&lt;/a&gt; un ensemble de scripts qui vous faciliteront la vie&lt;/p&gt;
+&lt;p&gt;Ainsi, après avoir installé les dépendances, en entrant la commande&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd download-images
+npm install
+
+node imagenet-downloader.js http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537 hotdog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;nous obtiendrons un dossier rempli d'images de hotdogs.&lt;/p&gt;
+&lt;p&gt;Il ne reste plus qu'à faire la même chose pour Not Hotdog. Choisissez donc la/les catégories qui vous plaisent le plus et catégorisez-les comme not-hotdog&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;node imagenet-downloader.js http://image-net.org/api/text/imagenet.synset.geturls?wnid=n00021939 not-hotdog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id="entranerlemodle"&gt;Entraîner le modèle&lt;/h2&gt;
+&lt;p&gt;Une fois les images téléchargées et catégorisées, il ne reste plus qu'à entraîner le modèle de classification.&lt;/p&gt;
+&lt;p&gt;Pour ce faire, vous pouvez utiliser le script python mis à disposition dans le repository téléchargé précédemment&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd train-model
+python train-model.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/turicreate.png" alt="Turi Create GUI"&gt;&lt;/p&gt;
+&lt;p&gt;Vous obtiendrez au bout d'une dizaine de minutes, ou plus selon le nombre d'images à traiter, un fichier Classifier.mlmodel que l'on utilisera dans la seconde partie de ce tutoriel.&lt;/p&gt;
+&lt;p&gt;Merci de m'avoir lu et, si l'article vous a plu, n'hésitez pas à le partager sur les réseaux sociaux.&lt;/p&gt;
+&lt;p&gt;Jérémie.&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Les 4 choses que j'ai apprises après mon premier talk technique</title><description>&lt;div class="kg-card-markdown"&gt;&lt;p&gt;La semaine dernière j'ai donné mon deuxième talk sur le développement JavaScript, où j'ai parlé de &lt;a href="http://truffleframework.com/"&gt;Truffle&lt;/a&gt; et &lt;a href="https://soliditylang.com/"&gt;Solidity&lt;/a&gt; à un groupe de développeurs de chez JS-Republic.&lt;br&gt;
 J'ai été très content du résultat et j'espère être capable de continuer à en faire dans le futur.&lt;br&gt;
 Voici les conseils que je&lt;/p&gt;&lt;/div&gt;</description><link>http://localhost:2368/les-4-choses-que-jai-apprises-apres-mon-premier-talk-technique/</link><guid isPermaLink="false">5a884878061b81038cd7ed51</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Sat, 17 Feb 2018 15:30:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/02/20171116_121348.jpg-2.jpeg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/02/20171116_121348.jpg-2.jpeg" alt="Les 4 choses que j'ai apprises après mon premier talk technique"&gt;&lt;p&gt;La semaine dernière j'ai donné mon deuxième talk sur le développement JavaScript, où j'ai parlé de &lt;a href="http://truffleframework.com/"&gt;Truffle&lt;/a&gt; et &lt;a href="https://soliditylang.com/"&gt;Solidity&lt;/a&gt; à un groupe de développeurs de chez JS-Republic.&lt;br&gt;
 J'ai été très content du résultat et j'espère être capable de continuer à en faire dans le futur.&lt;br&gt;
