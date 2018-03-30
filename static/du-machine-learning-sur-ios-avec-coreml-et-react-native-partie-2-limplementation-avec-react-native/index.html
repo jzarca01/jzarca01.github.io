@@ -1,0 +1,432 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" type="text/css" href="../assets/css/normalize.css?v=f53f1f19c8">
+    <link rel="stylesheet" type="text/css" href="../assets/css/screen.css?v=f53f1f19c8">
+
+    
+
+    <meta name="description" content="Dans cette partie, nous allons voir ensemble comment intégrer ce modèle dans une application React-Native">
+    <link rel="shortcut icon" href="../favicon.png" type="image/png">
+    <link rel="canonical" href="index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="amp/index.html">
+    
+    <meta property="og:site_name" content="Le Blog du Chabbat">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native">
+    <meta property="og:description" content="Comment intégrer un modèle de classification d'image dans une application React-Native">
+    <meta property="og:url" content="http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/">
+    <meta property="og:image" content="http://jzarca01.github.io/content/images/2018/03/hotdog-3.png">
+    <meta property="article:published_time" content="2018-03-30T14:11:47.000Z">
+    <meta property="article:modified_time" content="2018-03-30T14:17:45.000Z">
+    <meta property="article:tag" content="code">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native">
+    <meta name="twitter:description" content="Comment intégrer un modèle de classification d'image dans une application React-Native">
+    <meta name="twitter:url" content="http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/">
+    <meta name="twitter:image" content="http://jzarca01.github.io/content/images/2018/03/hotdog-2.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Jérémie Zarca">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="code">
+    <meta name="twitter:site" content="@Jeremie__">
+    <meta name="twitter:creator" content="@Jeremie__">
+    <meta property="og:image:width" content="611">
+    <meta property="og:image:height" content="527">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Le Blog du Chabbat",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2017/12/aborich_s.jpg",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Jérémie Zarca",
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2017/12/15230654_10154728107462801_7280102167862737793_n.png",
+            "width": 400,
+            "height": 400
+        },
+        "url": "http://localhost:2368/author/jeremie/",
+        "sameAs": [
+            "https://twitter.com/Jeremie__"
+        ]
+    },
+    "headline": "Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l&#x27;implémentation avec React-Native",
+    "url": "http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/",
+    "datePublished": "2018-03-30T14:11:47.000Z",
+    "dateModified": "2018-03-30T14:17:45.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2018/03/hotdog-1.png",
+        "width": 611,
+        "height": 527
+    },
+    "keywords": "code",
+    "description": "Comment intégrer un modèle de classification d&#x27;image dans une application React-Native",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <script type="text/javascript" src="../public/ghost-sdk.js?v=f53f1f19c8"></script>
+<script type="text/javascript">
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "3ba5db887209"
+});
+</script>
+    <meta name="generator" content="Ghost 1.19">
+    <link rel="alternate" type="application/rss+xml" title="Le Blog du Chabbat" href="../rss/index.html">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-111460280-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-111460280-1');
+</script>
+</head>
+<body class="post-template tag-code">
+
+    <header id="site-head">
+        <a id="blog-logo" href="../"><div class="bloglogo" style="background: url(../content/images/2017/12/aborich_s.jpg)"></div></a>
+        <h1 class="blog-title"><a href="../">Le Blog du Chabbat</a></h1>
+        <h2 class="blog-description">Fooding et coding du vendredi soir au samedi soir</h2>        <nav class="menu" role="nav">
+    <ul>
+      <li><a href="../tag/food/">Fooding</a></li>
+      <li><a href="../tag/code/">Coding</a></li>
+      <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=8MBQYFGJXL4XE" class="button">Offre-moi un kebab</a></li>
+    </ul>
+</nav>    </header>
+
+    
+<main class="content" role="main">
+
+    <article class="post tag-code">
+
+
+        <header>
+        <!--<div class="post-meta tags">Posté dans <a href="/tag/code/">code</a></div>-->
+        <h1 class="post-title">Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native</h1>
+        <div class="post-meta"><time class="post-date" datetime="2018-03-30T16:11:47.00Z">...</time></div>
+        </header>
+
+        <section class="post-content">
+            <div class="kg-card-markdown"><p>Si vous êtes arrivés à cette partie, ca veut dire que normalement vous avez votre propre modèle de Machine Learning. Si ce n'est pas le cas, je vous invite à lire <a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">la première partie de ce tutoriel</a>.</p>
+<p>Dans cette partie, nous allons voir ensemble comment intégrer ce modèle dans une application React-Native en utilisant la librairie <em>react-native-core-ml-image</em>, qui apporte les bindings au module natif CoreML d'Apple.</p>
+<p><img src="../content/images/2018/03/Hot-Dog-Illustration-GIF-downsized_large.gif" alt="Not hotdog"></p>
+<h2 id="cequevousallezaccomplirdanscettepartie">Ce que vous allez accomplir dans cette partie</h2>
+<ul>
+<li>Créer un nouveau projet React-Native</li>
+<li>Configurer Xcode pour faire marcher la librairie de Machine Learning</li>
+<li>Reconnaître un hotdog grâce à la caméra de votre iPhone</li>
+</ul>
+<h2 id="lesprrequis">Les prérequis</h2>
+<ul>
+<li>macOS 10.12+</li>
+<li>Xcode 9</li>
+<li>iOS 11+</li>
+</ul>
+<h2 id="crerunprojetreactnative">Créer un projet React-Native</h2>
+<p>Tout d'abord, il faudra créer un nouveau projet React-Native.<br>
+Ouvrez votre terminal, naviguez dans votre dossier de projets et entrez la commande suivante:</p>
+<pre><code>react-native init notHotDog (ou tout autre nom)
+</code></pre>
+<p>Au bout de quelques minutes, tout sera installé et vous serez prêt à passer à la suite.</p>
+<h2 id="installerlalibrairiecoreml">Installer la librairie CoreML</h2>
+<p>Nous allons utiliser la librairie <a href="https://www.npmjs.com/package/react-native-core-ml-image">react-native-core-ml-image</a></p>
+<pre><code>npm install --save react-native-core-ml-image
+react-native link
+</code></pre>
+<p>Allez dans votre projet, puis dans le dossier "ios" et double-cliquez sur le fichier notHotDog.xcodeproj pour l'ouvrir dans Xcode</p>
+<h2 id="configurerleprojet">Configurer le projet</h2>
+<p>Par défaut, les projets en React-Native sont configurés pour utiliser principalement Objective-C. La librairie <em>react-native-core-ml-image</em> étant écrite en Swift, il va falloir changer quelques paramètres dans le projet</p>
+<p>Tout d'abord, il va falloir ajouter un fichier Swift au projet</p>
+<p><img src="../content/images/2018/03/add_file.png" alt="ajouter un fichier"><br>
+<img src="../content/images/2018/03/swift.png" alt="choisir le type swift"></p>
+<p>Le nom importe peu, il ne sera de toute façon pas utilisé. Un message apparaît alors vous proposant de créer un "Objective-C Bridging Header": c’est le fichier qui sert à faire le lien entre Swift et les fichiers entête des Classes Objective-C</p>
+<p><img src="../content/images/2018/03/bridging_header.png" alt="Objective-C Bridging Header"></p>
+<p>Enfin, la librairie étant écrite en Swift 4.0, il va falloir spécifier la version de Swift à utiliser (la 3.2 étant la version par défaut).<br>
+Cliquez sur la racine du projet (notHotDog), séléctionnez l'onglet "Build Settings", puis tout en bas, changez la version du langage Swift à utiliser.</p>
+<p><img src="../content/images/2018/03/swift_version.png" alt="changer la version swift"></p>
+<h2 id="importerlemodlecoremldansleprojet">Importer le modèle CoreML dans le projet</h2>
+<p>Avant de passer à la partie programmation, il ne reste plus qu'à importer notre modèle de classification d'images dans le projet notHotDog.<br>
+Glissez-déposer le modèle (Classifier.mlmodel) et renommez-le notHotDog.mlmodelc (non ce n'est pas une faute de frappe)</p>
+<p><img src="../content/images/2018/03/mlmodelc.png" alt="notHotDog.mlmodelc"></p>
+<p>CoreML ne fonctionne pas directement avec les fichiers *.mlmodel, il faut d'abord les traduire en *.mlmodelc (c pour compiled), mais notre script Python s'en est déjà occupé.</p>
+<pre><code class="language-python"># Export for use in Core ML
+model.export_coreml('Classifier.mlmodel')
+</code></pre>
+<p>Si vous n'avez pas de modèle, je vous invite à lire <a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">la première partie de ce tutoriel</a>, qui vous guidera dans <a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">la création d'un modèle de classification d'images avec Turi Create</a>.</p>
+<h2 id="autoriserlaccslacamra">Autoriser l'accès à la caméra</h2>
+<p>Dans le fichier Info.plist, cliquez sur le petit plus à la droite de chaque entrée et ajoutez "Privacy - Camera Usage Description" comme montré ci-dessous</p>
+<p><img src="../content/images/2018/03/camera.png" alt="privacy camera usage"></p>
+<p>C'est tout pour la configuration ! Il ne reste plus qu'à implémenter tout cela.</p>
+<p><img src="https://media.giphy.com/media/QHE5gWI0QjqF2/giphy.gif" alt="gif code"></p>
+<h2 id="implmenterlecode">Implémenter le code</h2>
+<p>La première chose à faire est d'importer la librairie <em>react-native-core-ml-image</em> dans le projet. Pour cet exemple, tout le code se situera dans le fichier App.js</p>
+<pre><code>import CoreMLImage from 'react-native-core-ml-image'
+</code></pre>
+<p>Ensuite, remplacez toute la méthode render() par ce qui vient ci-après:</p>
+<pre><code class="language-javascript">render() {
+    let classification = null;
+
+    if (this.state.bestMatch) {
+      if (this.state.bestMatch.identifier &amp;&amp; this.state.bestMatch.identifier == "hotdog") {
+        classification = "Hotdog";
+      } else {
+        classification = "Not hotdog";
+      }
+    }
+
+    return (
+      &lt;View style={styles.container}&gt;
+          &lt;CoreMLImage modelFile="notHotDog" onClassification={(evt) =&gt; this.onClassification(evt)}&gt;
+              &lt;View style={styles.container}&gt;
+                &lt;Text style={styles.info}&gt;{classification}&lt;/Text&gt;
+              &lt;/View&gt;
+          &lt;/CoreMLImage&gt;
+      &lt;/View&gt;
+    );
+  }
+</code></pre>
+<p>La méthode <em>onClassification</em> nous permet de recevoir des updates quand un nouvel objet a été classifié. Il renvoie les données suivantes:</p>
+<pre><code class="language-json">[{
+    identifier: "hotdog",
+    confidence: 0.87
+},
+{
+    identifier: "not-hotdog",
+    confidence: 0.4
+}]
+</code></pre>
+<p>Nous n'avons plus qu'à implémenter la méthode <em>onClassification</em> qui se charge de trouver la meilleure classification.</p>
+<pre><code class="language-javascript">onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;&amp; classifications.length) {
+      classifications.map(classification =&gt; {
+        if (!bestMatch || classification.confidence &gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
+</code></pre>
+<p>Si l'on se base sur les données précédentes, alors bestMatch vaudra</p>
+<pre><code class="language-json">{
+    identifier: "hotdog",
+    confidence: 0.87
+}
+</code></pre>
+<p>Voici le code complet:</p>
+<pre><code class="language-javascript">import React, { Component } from 'react';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import idx from 'idx';
+
+const BEST_MATCH_THRESHOLD = 0.5;
+
+import CoreMLImage from "react-native-core-ml-image";
+
+export default class App extends Component&lt;{}&gt; {
+
+  constructor() {
+    super();
+    this.state = {
+      bestMatch: null
+    };
+  }
+
+  onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;&amp; classifications.length) {
+      classifications.map(classification =&gt; {
+        if (!bestMatch || classification.confidence &gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
+
+  classify() {
+    if (idx(this.state, _ =&gt; _.bestMatch.identifier) ) {
+      if (this.state.bestMatch.identifier == "hotdog") {
+        return "Hotdog";
+      } else {
+        return "Not hotdog";
+      }
+    }
+  }
+
+
+  render() {
+    return (
+      &lt;View style={styles.container}&gt;
+          &lt;CoreMLImage modelFile="notHotDog" onClassification={(evt) =&gt; this.onClassification(evt)}&gt;
+              &lt;View style={styles.container}&gt;
+                &lt;Text style={styles.info}&gt;{classify()}&lt;/Text&gt;
+              &lt;/View&gt;
+          &lt;/CoreMLImage&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  info: {
+    fontSize: 20,
+    color: "#ffffff",
+    textAlign: 'center',
+    fontWeight: "900",
+    margin: 10,
+  }
+});
+</code></pre>
+<p>Il ne vous reste plus qu'à éxecuter le code sur votre iPhone (cela ne fonctionnera pas sur le simulateur).</p>
+<p>Si vous avez tout bien fait, l'app vous demandera la permission d'accéder à votre appareil photo et vous pourrez alors distinguer un hotdog du teckel de votre voisine.</p>
+<p>Merci de m'avoir lu, et si l'article vous a plu, n'hésitez pas à le partager sur les réseaux sociaux.</p>
+<p>Jérémie.</p>
+</div>
+        </section>
+
+        <section class="share">
+            <p class="info prompt">Partager cet article</p>
+            <div class="share_links">
+                <a href="http://twitter.com/share?text=Du%20Machine%20Learning%20sur%20iOS%20avec%20CoreML%20et%20React-Native:%20partie%202,%20l'impl%C3%A9mentation%20avec%20React-Native&amp;url=http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="fa fa-2x fa-fw fa-twitter"></i> <span class="hidden">Twitter</span>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="fa fa-2x fa-fw fa-facebook-square"></i> <span class="hidden">Facebook</span>
+                </a>
+                <a href="https://plus.google.com/share?url=http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="fa fa-2x fa-fw fa-google-plus-square"></i> <span class="hidden">Google+</span>
+                </a>
+            </div>
+        </section>
+
+        <footer class="post-footer">
+
+            <section class="author">
+                <div class="authorimage" style="background: url(../content/images/2017/12/15230654_10154728107462801_7280102167862737793_n.png)"></div>
+                <p class="attr">Par</p>
+                <h4><a href="index.html">Jérémie Zarca</a></h4>
+                <p class="bio"></p>
+            </section>
+
+        </footer>
+
+
+        <div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = 'http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/';  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = '/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://le-blog-du-chabbat.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+    </article>
+
+</main>
+
+
+    <footer class="site-footer">
+        <div class="inner">
+            <section class="copyright">© 2018 <a href="../">Le Blog du Chabbat</a>. Tous droits réservés.</section>
+        </div>
+    </footer>
+
+    
+
+    <!-- Load jQuery if is not already loaded. -->
+    <!-- After Ghost 0.7, on all new blogs jquery is not loaded by default. -->
+    <script type="text/javascript">
+        if (typeof jQuery == 'undefined') {
+            document.write('<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></'+'script>');
+        }
+    </script>
+    <script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="../assets/js/index.js?v=f53f1f19c8"></script>
+
+</body>

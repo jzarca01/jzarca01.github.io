@@ -1,0 +1,555 @@
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Le Blog du Chabbat</title><description>Fooding et coding du vendredi soir au samedi soir</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>Le Blog du Chabbat</title><link>http://localhost:2368/</link></image><generator>Ghost 1.19</generator><lastBuildDate>Fri, 30 Mar 2018 14:40:37 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native</title><description>Comment intégrer un modèle de classification d'image dans une application React-Native</description><link>http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/</link><guid isPermaLink="false">5abe44119e8405559edb73ec</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Fri, 30 Mar 2018 14:11:47 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/03/hotdog-1.png" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/03/hotdog-1.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;p&gt;Si vous êtes arrivés à cette partie, ca veut dire que normalement vous avez votre propre modèle de Machine Learning. Si ce n'est pas le cas, je vous invite à lire &lt;a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/"&gt;la première partie de ce tutoriel&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Dans cette partie, nous allons voir ensemble comment intégrer ce modèle dans une application React-Native en utilisant la librairie &lt;em&gt;react-native-core-ml-image&lt;/em&gt;, qui apporte les bindings au module natif CoreML d'Apple.&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/Hot-Dog-Illustration-GIF-downsized_large.gif" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;h2 id="cequevousallezaccomplirdanscettepartie"&gt;Ce que vous allez accomplir dans cette partie&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Créer un nouveau projet React-Native&lt;/li&gt;
+&lt;li&gt;Configurer Xcode pour faire marcher la librairie de Machine Learning&lt;/li&gt;
+&lt;li&gt;Reconnaître un hotdog grâce à la caméra de votre iPhone&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="lesprrequis"&gt;Les prérequis&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 10.12+&lt;/li&gt;
+&lt;li&gt;Xcode 9&lt;/li&gt;
+&lt;li&gt;iOS 11+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="crerunprojetreactnative"&gt;Créer un projet React-Native&lt;/h2&gt;
+&lt;p&gt;Tout d'abord, il faudra créer un nouveau projet React-Native.&lt;br&gt;
+Ouvrez votre terminal, naviguez dans votre dossier de projets et entrez la commande suivante:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;react-native init notHotDog (ou tout autre nom)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Au bout de quelques minutes, tout sera installé et vous serez prêt à passer à la suite.&lt;/p&gt;
+&lt;h2 id="installerlalibrairiecoreml"&gt;Installer la librairie CoreML&lt;/h2&gt;
+&lt;p&gt;Nous allons utiliser la librairie &lt;a href="https://www.npmjs.com/package/react-native-core-ml-image"&gt;react-native-core-ml-image&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install --save react-native-core-ml-image
+react-native link
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Allez dans votre projet, puis dans le dossier &amp;quot;ios&amp;quot; et double-cliquez sur le fichier notHotDog.xcodeproj pour l'ouvrir dans Xcode&lt;/p&gt;
+&lt;h2 id="configurerleprojet"&gt;Configurer le projet&lt;/h2&gt;
+&lt;p&gt;Par défaut, les projets en React-Native sont configurés pour utiliser principalement Objective-C. La librairie &lt;em&gt;react-native-core-ml-image&lt;/em&gt; étant écrite en Swift, il va falloir changer quelques paramètres dans le projet&lt;/p&gt;
+&lt;p&gt;Tout d'abord, il va falloir ajouter un fichier Swift au projet&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/add_file.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;br&gt;
+&lt;img src="http://localhost:2368/content/images/2018/03/swift.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;p&gt;Le nom importe peu, il ne sera de toute façon pas utilisé. Un message apparaît alors vous proposant de créer un &amp;quot;Objective-C Bridging Header&amp;quot;: c’est le fichier qui sert à faire le lien entre Swift et les fichiers entête des Classes Objective-C&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/bridging_header.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;p&gt;Enfin, la librairie étant écrite en Swift 4.0, il va falloir spécifier la version de Swift à utiliser (la 3.2 étant la version par défaut).&lt;br&gt;
+Cliquez sur la racine du projet (notHotDog), séléctionnez l'onglet &amp;quot;Build Settings&amp;quot;, puis tout en bas, changez la version du langage Swift à utiliser.&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/swift_version.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;h2 id="importerlemodlecoremldansleprojet"&gt;Importer le modèle CoreML dans le projet&lt;/h2&gt;
+&lt;p&gt;Avant de passer à la partie programmation, il ne reste plus qu'à importer notre modèle de classification d'images dans le projet notHotDog.&lt;br&gt;
+Glissez-déposer le modèle (Classifier.mlmodel) et renommez-le notHotDog.mlmodelc (non ce n'est pas une faute de frappe)&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/mlmodelc.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;p&gt;CoreML ne fonctionne pas directement avec les fichiers *.mlmodel, il faut d'abord les traduire en *.mlmodelc (c pour compiled), mais notre script Python s'en est déjà occupé.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;# Export for use in Core ML
+model.export_coreml('Classifier.mlmodel')
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Si vous n'avez pas de modèle, je vous invite à lire &lt;a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/"&gt;la première partie de ce tutoriel&lt;/a&gt;, qui vous guidera dans &lt;a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/"&gt;la création d'un modèle de classification d'images avec Turi Create&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="autoriserlaccslacamra"&gt;Autoriser l'accès à la caméra&lt;/h2&gt;
+&lt;p&gt;Dans le fichier Info.plist, cliquez sur le petit plus à la droite de chaque entrée et ajoutez &amp;quot;Privacy - Camera Usage Description&amp;quot; comme montré ci-dessous&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/camera.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;p&gt;C'est tout pour la configuration ! Il ne reste plus qu'à implémenter tout cela.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://media.giphy.com/media/QHE5gWI0QjqF2/giphy.gif" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;h2 id="implmenterlecode"&gt;Implémenter le code&lt;/h2&gt;
+&lt;p&gt;La première chose à faire est d'importer la librairie &lt;em&gt;react-native-core-ml-image&lt;/em&gt; dans le projet. Pour cet exemple, tout le code se situera dans le fichier App.js&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import CoreMLImage from 'react-native-core-ml-image'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ensuite, remplacez toute la méthode render() par ce qui vient ci-après:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;render() {
+    let classification = null;
+
+    if (this.state.bestMatch) {
+      if (this.state.bestMatch.identifier &amp;amp;&amp;amp; this.state.bestMatch.identifier == &amp;quot;hotdog&amp;quot;) {
+        classification = &amp;quot;Hotdog&amp;quot;;
+      } else {
+        classification = &amp;quot;Not hotdog&amp;quot;;
+      }
+    }
+
+    return (
+      &amp;lt;View style={styles.container}&amp;gt;
+          &amp;lt;CoreMLImage modelFile=&amp;quot;notHotDog&amp;quot; onClassification={(evt) =&amp;gt; this.onClassification(evt)}&amp;gt;
+              &amp;lt;View style={styles.container}&amp;gt;
+                &amp;lt;Text style={styles.info}&amp;gt;{classification}&amp;lt;/Text&amp;gt;
+              &amp;lt;/View&amp;gt;
+          &amp;lt;/CoreMLImage&amp;gt;
+      &amp;lt;/View&amp;gt;
+    );
+  }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La méthode &lt;em&gt;onClassification&lt;/em&gt; nous permet de recevoir des updates quand un nouvel objet a été classifié. Il renvoie les données suivantes:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-json"&gt;[{
+    identifier: &amp;quot;hotdog&amp;quot;,
+    confidence: 0.87
+},
+{
+    identifier: &amp;quot;not-hotdog&amp;quot;,
+    confidence: 0.4
+}]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nous n'avons plus qu'à implémenter la méthode &lt;em&gt;onClassification&lt;/em&gt; qui se charge de trouver la meilleure classification.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;amp;&amp;amp; classifications.length) {
+      classifications.map(classification =&amp;gt; {
+        if (!bestMatch || classification.confidence &amp;gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &amp;gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Si l'on se base sur les données précédentes, alors bestMatch vaudra&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-json"&gt;{
+    identifier: &amp;quot;hotdog&amp;quot;,
+    confidence: 0.87
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voici le code complet:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;import React, { Component } from 'react';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import idx from 'idx';
+
+const BEST_MATCH_THRESHOLD = 0.5;
+
+import CoreMLImage from &amp;quot;react-native-core-ml-image&amp;quot;;
+
+export default class App extends Component&amp;lt;{}&amp;gt; {
+
+  constructor() {
+    super();
+    this.state = {
+      bestMatch: null
+    };
+  }
+
+  onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;amp;&amp;amp; classifications.length) {
+      classifications.map(classification =&amp;gt; {
+        if (!bestMatch || classification.confidence &amp;gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &amp;gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
+
+  classify() {
+    if (idx(this.state, _ =&amp;gt; _.bestMatch.identifier) ) {
+      if (this.state.bestMatch.identifier == &amp;quot;hotdog&amp;quot;) {
+        return &amp;quot;Hotdog&amp;quot;;
+      } else {
+        return &amp;quot;Not hotdog&amp;quot;;
+      }
+    }
+  }
+
+
+  render() {
+    return (
+      &amp;lt;View style={styles.container}&amp;gt;
+          &amp;lt;CoreMLImage modelFile=&amp;quot;notHotDog&amp;quot; onClassification={(evt) =&amp;gt; this.onClassification(evt)}&amp;gt;
+              &amp;lt;View style={styles.container}&amp;gt;
+                &amp;lt;Text style={styles.info}&amp;gt;{classify()}&amp;lt;/Text&amp;gt;
+              &amp;lt;/View&amp;gt;
+          &amp;lt;/CoreMLImage&amp;gt;
+      &amp;lt;/View&amp;gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  info: {
+    fontSize: 20,
+    color: &amp;quot;#ffffff&amp;quot;,
+    textAlign: 'center',
+    fontWeight: &amp;quot;900&amp;quot;,
+    margin: 10,
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il ne vous reste plus qu'à éxecuter le code sur votre iPhone (cela ne fonctionnera pas sur le simulateur).&lt;/p&gt;
+&lt;p&gt;Si vous avez tout bien fait, l'app vous demandera la permission d'accéder à votre appareil photo et vous pourrez alors distinguer un hotdog du teckel de votre voisine.&lt;/p&gt;
+&lt;p&gt;Merci de m'avoir lu, et si l'article vous a plu, n'hésitez pas à le partager sur les réseaux sociaux.&lt;/p&gt;
+&lt;p&gt;Jérémie.&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle</title><description>Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.</description><link>http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/</link><guid isPermaLink="false">5aad0e5b54c16c6aed139ec7</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Sat, 17 Mar 2018 12:00:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/03/hotdog-or-not-hotdog-app.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/03/hotdog-or-not-hotdog-app.jpg" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle"&gt;&lt;p&gt;Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.&lt;/p&gt;
+&lt;p&gt;Les solutions de Machine Learning sont depuis longtemps disponibles dans le cloud via des API, mais elles demandaient une connexion internet et leur temps de traitement pouvait s'avérer long et coûteux à la fois.&lt;/p&gt;
+&lt;p&gt;Avec la sortie d'iOS 11, Apple a mis à disposition des développeurs sa librairie de Machine Learning, CoreML. Désormais, il n'est plus nécessaire d'avoir un serveur puissant pour traiter les reqûetes ou faire appel à une API tierce. CoreML s'occupe de tout avec la puissance de calcul de votre smartphone.&lt;/p&gt;
+&lt;p&gt;Vous êtes curieux de savoir comment l'intégrer dans vos applications ? C'est plus simple que ce que vous pourriez penser.&lt;/p&gt;
+&lt;p&gt;Prenons comme exemple, la célèbre application parodique Not Hotdog, découverte dans la série Silicon Valley, qui, lorsque l'utilisateur pointe son smartphone vers un objet, lui dit instantanément si ce dernier regarde un hotdog ou non.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://media.giphy.com/media/fHcA1ZdPDZqxfrNY9n/giphy.gif" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle"&gt;&lt;/p&gt;
+&lt;h2 id="cequevousallezapprendredanscettepartie"&gt;Ce que vous allez apprendre dans cette partie&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Installer votre environnement&lt;/li&gt;
+&lt;li&gt;Collecter des données&lt;/li&gt;
+&lt;li&gt;Créer votre modèle de classification d'image avec Turi Create&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="lesprrequis"&gt;Les prérequis&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;macOS 10.12+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ou Linux (avec glibc 2.12+)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;ou Windows 10 (via WSL)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Python 2.7, 3.5 ou 3.6&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;une architecture x86_64&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="questcequeturicreate"&gt;Qu'est-ce que Turi Create ?&lt;/h2&gt;
+&lt;p&gt;Il s'agit d'un outil qui « simplifie le développement de modèles de machine learning personnalisés », pouvant être ensuite exploités dans des applications utilisant la librairie CoreML.&lt;br&gt;
+Turi Create se base sur le framework de Deep Learning &lt;a href="https://mxnet.apache.org/"&gt;MXNet d'Apache&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Turi Create met à disposition des développeurs une technologie souple pour classifier des images, détecter des objets, concevoir des systèmes de recommandations, ...&lt;br&gt;
+L'outil est extrêmement simple d'utilisation, flexible, et rapide.&lt;/p&gt;
+&lt;h2 id="soninstallation"&gt;Son installation&lt;/h2&gt;
+&lt;p&gt;Comme pour beaucoup d'outils de Machine Learning, &lt;strong&gt;python&lt;/strong&gt; est le langage utilisé. Mais ne vous en faites pas, le code est très simple à comprendre.&lt;/p&gt;
+&lt;p&gt;Il est recommandé d'utiliser un environnement virtuel, &lt;strong&gt;virtualenv&lt;/strong&gt;, en entrant la commande&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pip install virtualenv
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Si vous n'avez pas pip, le gestionnaire de paquets de Python, vous pouvez l'installer grâce à &lt;a href="https://brew.sh/"&gt;Homebrew&lt;/a&gt; en entrant la commande&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;brew install pip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Puis,&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// Créer un environnement virtuel Python
+cd ~
+virtualenv venv
+
+// Activer votre environnement virtuel
+source ~/venv/bin/activate
+
+// Installer Turi Create
+pip install -U turicreate
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id="collecterdesdonnes"&gt;Collecter des données&lt;/h2&gt;
+&lt;p&gt;Avant de pouvoir entraîner un modèle, il nous faut des données.&lt;/p&gt;
+&lt;p&gt;Ces données, on peut les trouver sur le site &lt;a href="http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/www.image-net.org"&gt;ImageNet&lt;/a&gt; qui est une très large base de données d'images, avec plus de 14 millions de résultats.&lt;/p&gt;
+&lt;p&gt;Pour notre projet, nous avons besoin de deux catégories d'images: Hotdog et... Not Hotdog.&lt;/p&gt;
+&lt;p&gt;Voici le lien pour la première: &lt;a href="http://www.image-net.org/synset?wnid=n07697537"&gt;http://www.image-net.org/synset?wnid=n07697537&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/hotdog.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle"&gt;&lt;/p&gt;
+&lt;p&gt;On peut également récupérer tous les liens en utilisant l'API publique, via le bouton Download dans l'onglet Downloads&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/download_button.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537"&gt;http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Vous pourrez retrouver sur le repository &lt;a href="https://github.com/jzarca01/turicreate-easy-scripts"&gt;turicreate-easy-scripts&lt;/a&gt; un ensemble de scripts qui vous faciliteront la vie&lt;/p&gt;
+&lt;p&gt;Ainsi, après avoir installé les dépendances, en entrant la commande&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd download-images
+npm install
+
+node imagenet-downloader.js http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537 hotdog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;nous obtiendrons un dossier rempli d'images de hotdogs.&lt;/p&gt;
+&lt;p&gt;Il ne reste plus qu'à faire la même chose pour Not Hotdog. Choisissez donc la/les catégories qui vous plaisent le plus et catégorisez-les comme not-hotdog&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;node imagenet-downloader.js http://image-net.org/api/text/imagenet.synset.geturls?wnid=n00021939 not-hotdog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id="entranerlemodle"&gt;Entraîner le modèle&lt;/h2&gt;
+&lt;p&gt;Une fois les images téléchargées et catégorisées, il ne reste plus qu'à entraîner le modèle de classification.&lt;/p&gt;
+&lt;p&gt;Pour ce faire, vous pouvez utiliser le script python mis à disposition dans le repository téléchargé précédemment&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd train-model
+python train-model.py
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/turicreate.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle"&gt;&lt;/p&gt;
+&lt;p&gt;Vous obtiendrez au bout d'une dizaine de minutes, ou plus selon le nombre d'images à traiter, un fichier Classifier.mlmodel que l'on utilisera dans la seconde partie de ce tutoriel.&lt;/p&gt;
+&lt;p&gt;Merci de m'avoir lu et, si l'article vous a plu, n'hésitez pas à le partager sur les réseaux sociaux.&lt;/p&gt;
+&lt;p&gt;Jérémie.&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Les 4 choses que j'ai apprises après mon premier talk technique</title><description>&lt;div class="kg-card-markdown"&gt;&lt;p&gt;La semaine dernière j'ai donné mon deuxième talk sur le développement JavaScript, où j'ai parlé de &lt;a href="http://truffleframework.com/"&gt;Truffle&lt;/a&gt; et &lt;a href="https://soliditylang.com/"&gt;Solidity&lt;/a&gt; à un groupe de développeurs de chez JS-Republic.&lt;br&gt;
+J'ai été très content du résultat et j'espère être capable de continuer à en faire dans le futur.&lt;br&gt;
+Voici les conseils que je&lt;/p&gt;&lt;/div&gt;</description><link>http://localhost:2368/les-4-choses-que-jai-apprises-apres-mon-premier-talk-technique/</link><guid isPermaLink="false">5a884878061b81038cd7ed51</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Sat, 17 Feb 2018 14:30:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/02/20171116_121348.jpg-2.jpeg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/02/20171116_121348.jpg-2.jpeg" alt="Les 4 choses que j'ai apprises après mon premier talk technique"&gt;&lt;p&gt;La semaine dernière j'ai donné mon deuxième talk sur le développement JavaScript, où j'ai parlé de &lt;a href="http://truffleframework.com/"&gt;Truffle&lt;/a&gt; et &lt;a href="https://soliditylang.com/"&gt;Solidity&lt;/a&gt; à un groupe de développeurs de chez JS-Republic.&lt;br&gt;
+J'ai été très content du résultat et j'espère être capable de continuer à en faire dans le futur.&lt;br&gt;
+Voici les conseils que je peux donner.&lt;/p&gt;
+&lt;h2 id="laprparationestprimordiale"&gt;La préparation est primordiale&lt;/h2&gt;
+&lt;p&gt;J'ai répété 3 fois avant la vraie présentation. A chacune des répétitions je récitais mon speech devant mon ordinateur, ou d'autres personnes, prenant le temps de passer sur chaque slide et de voir ce qui était améliorable.&lt;br&gt;
+Cela m'a donné la confiance nécessaire pour le jour J.&lt;br&gt;
+Je savais à l'avance quels étaient les prochains points abordés et ne me basais pas uniquement sur mes notes pour avancer.&lt;br&gt;
+&lt;em&gt;Point bonus&lt;/em&gt; : comme vous connaissez les slides, vous pouvez également improviser plus facilement.&lt;/p&gt;
+&lt;h2 id="pasbesoindtreunexpert"&gt;Pas besoin d'être un expert&lt;/h2&gt;
+&lt;p&gt;Je présentais devant un groupe de développeurs qui n'avaient que peu ou pas d'expérience sur ce sujet, chacun ayant ses sujets de prédilection.&lt;br&gt;
+Alors, sans pour autant être un expert, j'ai eu l'occasion de pas mal creuser le sujet, et fais profiter les autres de tout ce que j'ai pu découvrir et assimiler.&lt;br&gt;
+&lt;em&gt;Point bonus&lt;/em&gt; : pour éviter les questions piège, soyez sûr d'avoir fait un maximum des recherches sur le sujet et de vous être vous-mêmes posé certaines questions.&lt;/p&gt;
+&lt;h2 id="evitezleffetdmo"&gt;Evitez l'effet démo&lt;/h2&gt;
+&lt;p&gt;C'est toujours la même chose. Chez vous tout marche et lors de votre présentation, un message d'erreur s'affiche. Le stress s'accumule, un silence envahit la salle, et vous commencez à douter de votre place de speaker.&lt;br&gt;
+Pas de problème, ça arrive à tout le monde, même aux meilleurs.&lt;br&gt;
+Je conseillerais avant tout de tester la démo 10 fois au moins et dans l'environnement le plus proche de celui du jour J (même machine, même taille d'écran, même wifi, même manipulation, etc).&lt;br&gt;
+Et dans le pire des cas, faites des vidéos. De cette manière, vous contrôlez le résultat et pouvez toujours l'enregistrement en cas d'erreur.&lt;br&gt;
+&lt;em&gt;Point bonus&lt;/em&gt; : Si vous souhaitez montrer votre code, préférez une sauvegarde locale, pareil pour les dépendances de votre projet, téléchargez-les à l'avance, ne comptez pas sur le wifi le jour de votre présentation.&lt;/p&gt;
+&lt;h2 id="nengligezpasladiscussion"&gt;Ne négligez pas la discussion&lt;/h2&gt;
+&lt;p&gt;On en apprend beaucoup sur un sujet en faisant des recherches.&lt;br&gt;
+Et discuter après votre présentation avec l'auditoire permet d'en apprendre davantage et/ou de voir le problème sous un autre angle.&lt;br&gt;
+C'est toute cette préparation et ces échanges qui feront de vous un expert.&lt;/p&gt;
+&lt;p&gt;Je suis heureux d'avoir fait ces talks et suis très reconnaissant envers les personnes qui l'ont ecouté et n'ont pas essayé de me mettre dans l'embarras.&lt;br&gt;
+Parce qu'après tout, notre but à tous, c'est d'en apprendre davantage, dans un cadre convivial.&lt;/p&gt;
+&lt;p&gt;Merci de m'avoir lu, et si l'article vous a plu, n'hésitez pas à le partager au plus grand nombre.&lt;br&gt;
+Jérémie.&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Le Morning California de chez Paris New York</title><description>Test du Morning California de chez Paris New York</description><link>http://localhost:2368/le-morning-california-de-chez-paris-new-york/</link><guid isPermaLink="false">5a46ba8405994c49f7520834</guid><category>food</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Fri, 29 Dec 2017 21:01:35 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/IMG_4959-1.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/IMG_4959-1.jpg" alt="Le Morning California de chez Paris New York"&gt;&lt;p&gt;Premier article fooding pour le Blog du Chabbat, c'est ainsi que commence mon aventure pour trouver le meilleur burger de Paris.&lt;/p&gt;
+&lt;h2 id="parisnewyorkunvraigotdeburgeroberkampf"&gt;Paris - New York : un vrai goût de burger à Oberkampf&lt;/h2&gt;
+&lt;p&gt;En tout cas, c’est la promesse que nous fait le PNY, alias Paris – New York : un vrai burger à l'américaine, mais avec des produits qualitatifs.&lt;br&gt;
+Boeuf du Ponclet, cheddar fermier affiné pendant 9 mois, frites maisons : sur le papier, le PNY a tout pour réussir un burger de qualité.&lt;/p&gt;
+&lt;h2 id="leburger"&gt;Le burger&lt;/h2&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2017/12/IMG_4958.jpg" alt="Le Morning California de chez Paris New York"&gt;&lt;/p&gt;
+&lt;p&gt;J'ai commandé un Morning California, cheeseburger classique agrementé de confit d'oignon, d'avocat et de la sauce secrète PNY, ainsi que des &amp;quot;frenchies fries&amp;quot; avec supplément cheddar.&lt;/p&gt;
+&lt;p&gt;Le bun brioché est légèrement grillé a l'intérieur, ce qui donne un peu de craquant à bouchée. De plus, la feuille de salade en dessous du steak rajoute à ce côté craquant.&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2017/12/IMG_4960.jpg" alt="Le Morning California de chez Paris New York"&gt;&lt;/p&gt;
+&lt;p&gt;La viande vient directement du Ponclet, une ferme bretonne réputée pour la qualité de ses produits, et qui fournit déjà pas mal de resto réputés.&lt;br&gt;
+Lors de la commande, on m'a demandé de spécifier ma cuisson: j'ai choisi à point.&lt;/p&gt;
+&lt;p&gt;Alors j'ai trouvé que le steak était encore un peu saignant, mais l'alliance avec l'avocat a fait qu'il fondait dans la bouche.&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2017/12/IMG_4959.jpg" alt="Le Morning California de chez Paris New York"&gt;&lt;/p&gt;
+&lt;h2 id="lesfrites"&gt;Les frites&lt;/h2&gt;
+&lt;p&gt;Côté frites maintenant, PNY est plutôt un bon. Les frites sont faites maison; croustillantes, bien grillées et de bonne qualité, plutôt fines, pas trop salées, mais assez grasses.&lt;/p&gt;
+&lt;p&gt;Le supplément cheddar est la petite touche en plus. Le fromage est vraiment bon, très puissant, étant donné qu'il a été affiné pendant 9 mois.&lt;/p&gt;
+&lt;h2 id="enconclusion"&gt;En conclusion&lt;/h2&gt;
+&lt;p&gt;Paris New York fait de très bons burgers, un peu onéreux (13€ pour le Morning California) mais la qualité et le goût sont au rendez-vous. N'hésitez pas à y goûter si vous y avez l'occasion.&lt;/p&gt;
+&lt;p&gt;Et pour économiser 2,50€ sur Deliveroo (marche également en navigation privée), voici mon lien de parrainage: &lt;a href="http://roo.it/jeremiez0386"&gt;http://roo.it/jeremiez0386&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Créez votre premier skill pour Alexa : Partie 2, la mise en pratique</title><description>Créez votre premier skill pour Alexa: Partie 2, la mise en pratique.</description><link>http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-2/</link><guid isPermaLink="false">5a3a8ff1aa9a033755260980</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Thu, 21 Dec 2017 17:30:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/amazonecho_4-100599473-orig.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/amazonecho_4-100599473-orig.jpg" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;p&gt;&lt;em&gt;Cet article est paru en premier lieu sur le blog de JS-Republic: &lt;a href="http://blog.js-republic.com/alexa-creer-votre-skill-partie-2/"&gt;http://blog.js-republic.com/alexa-creer-votre-skill-partie-2/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Dans cette partie nous allons voir comment créer votre premier skill pour connaître la météo dans n’importe quelle ville d’Europe et à la fin de cet article vous pourrez repartir avec, c’est promis.&lt;/p&gt;
+&lt;p&gt;Maintenant que vous avez assimilé tous les concepts importants associés à la création de skills pour Alexa, nous pouvons enfin rentrer dans le vif du sujet. Si ce n’est pas le cas, n’hésitez surtout pas à relire la première partie de cet article.&lt;/p&gt;
+&lt;h3 id="lesprrequispourcettepartie"&gt;Les pré-requis pour cette partie :&lt;/h3&gt;
+&lt;p&gt;– Un compte sur le portail développeur Amazon (&lt;a href="https://developer.amazon.com/edw/home.html#/"&gt;https://developer.amazon.com/edw/home.html#/&lt;/a&gt;)&lt;br&gt;
+– Votre environnement de test&lt;br&gt;
+– Node 6 et npm installés (&lt;a href="https://nodejs.org/"&gt;https://nodejs.org/&lt;/a&gt;)&lt;br&gt;
+– Les concepts de base de ES6&lt;br&gt;
+– Votre éditeur de code favori&lt;/p&gt;
+&lt;h2 id="linstallationdeslibrairies"&gt;L’INSTALLATION DES LIBRAIRIES&lt;/h2&gt;
+&lt;p&gt;Ici, on fait au plus simple.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/media.giphy.com/media/wVJYDdgvARMJy/giphy.gif?resize=388%2C220&amp;amp;ssl=1" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mkdir MyAwesomeSkill
+cd MyAwesomeSkill
+npm init
+ 
+npm install —save alexa-skill-kit yahoo-weather
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Une petite explication s’impose: Alexa-skill-kit propose une première couche d’abstraction pour la librairie officielle d’Amazon, afin de rendre le développement le plus simple et le plus intuitif possible.&lt;br&gt;
+Yahoo-weather, quant à lui, est tout simplement un wrapper pour l’API Météo de Yahoo&lt;/p&gt;
+&lt;p&gt;Pour plus d’informations, vous pouvez consulter les repo &lt;a href="https://github.com/stojanovic/alexa-skill-kit"&gt;https://github.com/stojanovic/alexa-skill-kit&lt;/a&gt; et &lt;a href="https://github.com/mamal72/node-yahoo-weather"&gt;https://github.com/mamal72/node-yahoo-weather&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="lecode"&gt;LE CODE&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;INDEX.JS&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const alexaSkillKit = require('alexa-skill-kit')
+const intent = require('./lib/Intents')
+ 
+exports.handler = function(event, context) {
+    alexaSkillKit(event, context, parsedMessage =&amp;gt; {
+        // console.log(JSON.stringify(parsedMessage))
+        return intent(parsedMessage)
+    })
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;LIB/INTENTS.JS&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;const weather = require('yahoo-weather')
+ 
+module.exports = function(parsedMessage) {  
+    if (parsedMessage.type === 'IntentRequest' &amp;amp;&amp;amp; parsedMessage.intent.name === 'GetWeather') {
+        return weather(parsedMessage.intent.slots.Location.value)
+          .then(info =&amp;gt; info.item)
+          .then(item =&amp;gt; item.condition)
+          .then(condition =&amp;gt; {
+            //console.log('info', condition)
+            return `It is currently ${condition.text} with ${condition.temp} degrees in ${parsedMessage.intent.slots.Location.value}`
+          })
+          .catch(() =&amp;gt; {
+            return `Hm, I can't find any weather data for ${parsedMessage.intent.slots.Location.value}.`
+          })
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Vous vous souvenez du concept d’Intent, de Slots et d’Utterances, n’est-ce pas ? Si ce n’est pas le cas, je vous invite à relire les sections correspondantes dans la première partie de cet article.&lt;/p&gt;
+&lt;p&gt;Dans l’Intent Schema, nous avions défini la fonction GetWeather qui prenait comme Slot un objet Location de type AMAZON.EUROPE_CITY&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+    &amp;quot;intents&amp;quot;: [
+        {
+            &amp;quot;intent&amp;quot;: &amp;quot;GetWeather&amp;quot;,
+            &amp;quot;slots&amp;quot;: [
+                {
+                    &amp;quot;name: &amp;quot;Location&amp;quot;,
+                    &amp;quot;type&amp;quot;: &amp;quot;AMAZON.EUROPE_CITY&amp;quot;
+                }
+            ]
+        }
+    ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et dans le fichier de Sample Utterances, nous décrivions différentes manières d’appeler cette fonction à partir d’Alexa.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;GetWeather what is the weather in {Location}
+GetWeather weather in {Location}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ainsi, lorsque le skill est appelé par l’utilisateur, il saura quelle fonction exécuter.&lt;br&gt;
+Lorsque l’utilisateur dira &lt;strong&gt;« Alexa, ask My Awesome Skill for the weather in Paris »&lt;/strong&gt;, notre skill renverra &lt;strong&gt;« It is currently Sunny with 20 degrees in Paris »&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://media.giphy.com/media/g3MjnaLkNl19C/giphy.gif" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;/p&gt;
+&lt;p&gt;Il ne vous reste plus qu’à zipper votre projet pour passer à la suite.&lt;/p&gt;
+&lt;p&gt;Petite astuce pour les utilisateurs de Mac et de Linux: à partir de votre terminal, depuis le répertoire du projet, entrez la commande suivante pour zipper le projet.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;zip -r ../MyAwesomeSkill.zip *
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le code est également disponible à cette adresse : &lt;a href="https://github.com/jzarca01/alexaskill-jsrepublic"&gt;https://github.com/jzarca01/alexaskill-jsrepublic&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="envoyezleskillsurlesserveursamazon"&gt;ENVOYEZ LE SKILL SUR LES SERVEURS AMAZON&lt;/h2&gt;
+&lt;p&gt;Les ressources créées dans Amazon Web Services sont chacune identifiées de façon unique par un Amazon Resource Name (ARN).&lt;br&gt;
+Dans cette partie, nous allons créer une fonction Lambda sur les serveurs d’Amazon et y envoyer notre projet compressé.&lt;/p&gt;
+&lt;p&gt;Munissez vous de vos identifiants Amazon Developer et rendez vous à l’adresse suivante : &lt;a href="https://console.aws.amazon.com/?nc2=h_m_mc"&gt;https://console.aws.amazon.com/?nc2=h_m_mc&lt;/a&gt;&lt;br&gt;
+Puis cliquez en haut à gauche sur « Services » puis « Lambda »&lt;/p&gt;
+&lt;p&gt;￼&lt;img src="https://i1.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/1.png?w=629" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa AWS Lambda"&gt;&lt;/p&gt;
+&lt;p&gt;Il ne vous reste plus qu’a cliquer sur « Créer une fonction Lambda » puis sélectionner « Fonction vide ».&lt;/p&gt;
+&lt;p&gt;Sélectionnez « Kit Alexa Skills » parmi la liste des déclencheurs.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/2.png?w=912" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Kit AVS Skill"&gt;￼&lt;/p&gt;
+&lt;p&gt;C’est dans l’onglet « Configurer une fonction » que notre code sera chargé sur les serveurs Amazon.&lt;br&gt;
+Renseignez un nom et choisissez votre environnement d’exécution. Ici, choisissez « NodeJS 6.10 » puisque notre code utilise la syntaxe ES6.&lt;br&gt;
+Le nom n’a pas d’importance, il ne sera pas réutilisé plus tard.&lt;/p&gt;
+&lt;p&gt;Puis dans la section suivante, choisissez dans la liste déroulante « Type d’entrée de code » l’option « Charger un fichier ZIP ».&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/3.png?w=493" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa ZIP"&gt;￼&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/4.png?w=933" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa ZIP Recap"&gt;&lt;/p&gt;
+&lt;p&gt;￼Enfin, après la page de récapitulatif, il ne vous reste plus qu’a cliquer sur « Créer la fonction » pour passer à l’étape suivante.&lt;/p&gt;
+&lt;p&gt;Oh et une dernière chose, notez l’adresse ARN de votre fonction, vous en aurez besoin pour la prochaine partie de cette article.&lt;/p&gt;
+&lt;h2 id="enregistrezvotreskillauprsdamazon"&gt;ENREGISTREZ VOTRE SKILL AUPRÈS D’AMAZON&lt;/h2&gt;
+&lt;p&gt;Munissez vous de vos identifiants Amazon Developer et rendez vous à l’adresse suivante : &lt;a href="https://developer.amazon.com/edw/home.html#/skills"&gt;https://developer.amazon.com/edw/home.html#/skills&lt;/a&gt;&lt;br&gt;
+Si jusque là vous n’aviez pas crée votre compte, c’est le moment.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i1.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/5.png?w=1202" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Developer Console"&gt;&lt;/p&gt;
+&lt;p&gt;Puis cliquez sur le bouton « Add a New Skill » en haut à droite de l’écran.&lt;/p&gt;
+&lt;p&gt;A partir d’ici, vous êtes guidés tout au long du processus pour fournir toutes les informations nécessaires à la configuration de votre nouveau skill.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/6.png?w=642" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Skill Information"&gt;￼&lt;/p&gt;
+&lt;p&gt;Dans la section « Interaction Model », vous retrouvez le « Intent Schema » ainsi que les « Sample Utterances » dont nous ne cessons de parler depuis la première partie de cet article.￼Alexa Intent Schema&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/8.png?w=830" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Sample Utterances"&gt;&lt;/p&gt;
+&lt;p&gt;Il est tout à fait possible de créer un skill multilingue, mais nous n’en parlerons pas dans cet article. Si toutefois le sujet vous intéresse, voici le lien vers la documentation officielle (&lt;a href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages"&gt;https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/developing-skills-in-multiple-languages&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Enfin, dans la section « Configuration », il vous est demandé si votre skill est hébergé sur les serveurs Amazon ou bien sur un serveur privé. Ici, nous avons cherché à aller au plus simple, chez Amazon. C’est là que l’adresse ARN que vous avez notée précédemment servira. Elle indique l’adresse où votre skill est exécuté.&lt;/p&gt;
+&lt;p&gt;￼&lt;img src="https://i1.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/9.png?w=706" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Global Fields ARN"&gt;&lt;/p&gt;
+&lt;p&gt;Si tout s’est bien passé, le résultat du simulateur correspondra à ce que nous attendions.&lt;/p&gt;
+&lt;p&gt;￼&lt;img src="https://i1.wp.com/blog.js-republic.com/wp-content/uploads/2017/04/10.png?w=817" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique" title="Alexa Service Simulator"&gt;&lt;/p&gt;
+&lt;p&gt;Une dernière étape pour profiter pleinement de votre skill durement codé, l’activation.&lt;br&gt;
+Comme expliqué dans la première partie de cet article, les skills ne sont pas téléchargés sur votre device. Ils sont simplement activés depuis votre dashboard.&lt;br&gt;
+Par défaut, votre skill est activé, mais si ce n’était pas le cas, il faudrait vous connecter via l’application mobile Alexa pour l’activer depuis la section ‘Skills’.&lt;/p&gt;
+&lt;p&gt;Et tant qu’ils ne sont pas soumis pour une validation par Amazon, seulement le compte développeur y a accès.&lt;br&gt;
+En attendant, libérez votre créativité pour créer des skills toujours plus merveilleux.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://i1.wp.com/media.giphy.com/media/106holZERgWSFG/giphy.gif?resize=413%2C234&amp;amp;ssl=1" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;/p&gt;
+&lt;p&gt;Merci de m’avoir lu, et si l’article vous a plu, n’hésitez pas à le partager sur les réseaux sociaux.&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Créez votre premier skill pour Alexa : Partie 1, le fonctionnement</title><description>Créez votre premier skill pour Alexa: Partie 1, le fonctionnement</description><link>http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-1/</link><guid isPermaLink="false">5a3a8d79aa9a03375526097f</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Wed, 20 Dec 2017 17:00:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" alt="Créez votre premier skill pour Alexa : Partie 1, le fonctionnement"&gt;&lt;p&gt;&lt;em&gt;Cet article est paru en premier lieu sur le blog de JS-Republic: &lt;a href="http://blog.js-republic.com/alexa-creer-votre-skill-partie-1/"&gt;http://blog.js-republic.com/alexa-creer-votre-skill-partie-1/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Alexa, si vous l’ignoriez, c’est le joujou high-tech à la mode. C’est l’assistant conversationnel avec lequel vous interagissez par la voix. Vous pouvez lui poser tout un tas de questions, plugger des « skills » et même contrôler vos installations domotiques par la voix. Les « skills », ce sont les applications que l’on appelle et contrôle par la voix.&lt;/p&gt;
+&lt;p&gt;Alexa, c’est également l’interface au travers de laquelle les marques interagiront avec leurs clients demain. Et si l’on connaît le même engouement que pour le marché des applications mobile, mieux vaut être prêt pour obtenir sa part du gâteau.&lt;/p&gt;
+&lt;p&gt;Alors qu’un scandale sur les techniques d’espionnage vient d’éclater et qu’une vidéo remettant en question les liens entre Amazon et la CIA est devenue virale, il n’y avait pas de meilleur moment pour écrire cet article.&lt;/p&gt;
+&lt;p&gt;Si cela n’a pas alerté le Snowden qui sommeille en vous, alors vous pouvez continuer à lire cet article et découvrir comment développer votre premier skill pour Alexa.&lt;/p&gt;
+&lt;h1 id="lefonctionnementdalexa"&gt;LE FONCTIONNEMENT D’ALEXA&lt;/h1&gt;
+&lt;p&gt;Tout commence au moment où vous aurez dit « Alexa ». Ce petit nom très charmant, c’est le hotword, le mot-déclencheur en français, qui déclenche l’enregistrement de votre requête.&lt;/p&gt;
+&lt;p&gt;L’enregistrement audio est ensuite envoyé aux serveurs d’Amazon. Amazon utilise du Machine Learning pour l’aider à reconnaître les mots prononcés (pas d’inquiétude vous pouvez dégainer votre meilleur accent anglais) et à comprendre la question, c’est ce qu’on appelle le « Natural Language Processing ». Une fois compris, Amazon interroge le système correspondant pour vous retourner l’information demandée.&lt;/p&gt;
+&lt;h2 id="commentfonctionneunskill"&gt;Comment fonctionne un « skill » ?&lt;/h2&gt;
+&lt;p&gt;&lt;img src="https://i1.wp.com/blog.js-republic.com/wp-content/uploads/2017/03/alexa_schema.png?w=1000" alt="Créez votre premier skill pour Alexa : Partie 1, le fonctionnement" title="Schema du fonctionnement d’Alexa"&gt;&lt;br&gt;
+￼&lt;br&gt;
+Contrairement aux smartphones, ici aucune application n’est installée localement. Tous les « skills » sont stockés chez Amazon et l’utilisateur choisit par le biais de son dashboard (ou de l’application Alexa officielle) quels « skills » il souhaite activer.&lt;/p&gt;
+&lt;p&gt;Les skills sont invoqués grâce à leur nom (« Alexa open My Awesome Skill »)&lt;/p&gt;
+&lt;p&gt;Et tout comme pour une API, on peut également ajouter des paramètres à votre requête (« Alexa ask My Awesome Skill for the weather in London »). Ici, vous l’aurez deviné, le paramètre est « London ».&lt;/p&gt;
+&lt;h2 id="maiscommentellesaitalexaquellerequteeffectueretquefairedemonparamtre"&gt;Mais comment elle sait, Alexa, quelle requête effectuer et que faire de mon paramètre ?&lt;/h2&gt;
+&lt;p&gt;Un « skill » est composé de trois parties:&lt;/p&gt;
+&lt;p&gt;Votre programme,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Un « Intent Schema »,&lt;/li&gt;
+&lt;li&gt;Un fichier de « Sample Uterrances »&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;« Sample Uterrances » c’est un terme vachement compliqué pour désigner un fichier contenant plusieurs façons d’invoquer votre « skill » et quelles requêtes exécuter dans ces cas-là.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;GetWeather what is the weather in {Location}
+GetWeather weather in {Location}
+GetWeather will it rain in {Location}
+ 
+GetSingles single ladies between {Age1} and {Age2} in {Location}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Et de l’autre côté nous avons le schéma déclaratif des types de variables attendus par la fonction GetWeather&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+ &amp;quot;intents&amp;quot;: [
+  {
+   &amp;quot;intent&amp;quot;: &amp;quot;GetWeather&amp;quot;,
+   &amp;quot;slots&amp;quot;: [
+   {
+    &amp;quot;name&amp;quot;: &amp;quot;Location&amp;quot;,
+    &amp;quot;type&amp;quot;: &amp;quot;AMAZON.EUROPE_CITY&amp;quot;
+   }
+   ]
+  },
+  {
+  &amp;quot;intent&amp;quot;: &amp;quot;GetSingles&amp;quot;,
+  &amp;quot;slots&amp;quot;: [
+    {
+     &amp;quot;name&amp;quot;: &amp;quot;Location&amp;quot;,
+     &amp;quot;type&amp;quot;: &amp;quot;AMAZON.EUROPE_CITY&amp;quot;
+    },
+    {
+     &amp;quot;name&amp;quot;: &amp;quot;Age1&amp;quot;,
+     &amp;quot;type&amp;quot;: &amp;quot;AMAZON.NUMBER&amp;quot;
+    },
+    {
+     &amp;quot;name&amp;quot;: &amp;quot;Age2&amp;quot;,
+     &amp;quot;type&amp;quot;: &amp;quot;AMAZON.NUMBER&amp;quot;
+    }
+   ]
+  }
+ ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il y a autant de « slots » (les types de variables) déclarés que de variables requises pour votre fonction.&lt;/p&gt;
+&lt;p&gt;De cette manière, après le Speech-to-Text, l’algorithme de Natural Language Processing fait le rapprochement entre les mots et les types de « slots » annoncés.&lt;/p&gt;
+&lt;p&gt;Et « Alexa ask My Awesome Skill for singles ladies between forty and seventy in Paris » sera traduit en GetSingles(‘paris’,40,70)&lt;/p&gt;
+&lt;p&gt;La liste complète des « slots » est disponible ici: &lt;a href="https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/slot-type-reference#list-types"&gt;https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/slot-type-reference#list-types&lt;/a&gt; et si le « slot » dont vous avez besoin n’existe pas, vous pouvez toujours le créer.&lt;/p&gt;
+&lt;h1 id="crezvotreenvironnementdedveloppement"&gt;CRÉEZ VOTRE ENVIRONNEMENT DE DÉVELOPPEMENT&lt;/h1&gt;
+&lt;p&gt;Il existe plusieurs façons de tester votre code. Une unique condition préalable, posséder un compte Amazon.&lt;/p&gt;
+&lt;p&gt;Echosim.io&lt;br&gt;
+&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/03/alexa_echosim.png?resize=225%2C300" alt="Créez votre premier skill pour Alexa : Partie 1, le fonctionnement" title="Echosim.io"&gt;&lt;br&gt;
+Ce site internet vous propose de tester vos commandes directement dans le navigateur&lt;/p&gt;
+&lt;p&gt;Reverb.ai&lt;br&gt;
+&lt;img src="https://i0.wp.com/blog.js-republic.com/wp-content/uploads/2017/03/alexa_reverb.png?w=300" alt="Créez votre premier skill pour Alexa : Partie 1, le fonctionnement" title="Reverb.ai"&gt;&lt;br&gt;
+Reverb vous propose aussi de tester vos commandes dans le navigateur. Sa plus-value est qu’il est également possible de télécharger l’application directement sur votre Mac, votre iPhone ( iOS 10 minimum) ou votre Android ( Android 5.0 minimum)&lt;/p&gt;
+&lt;p&gt;Alexa-avs-sample-app&lt;br&gt;
+&lt;img src="https://i2.wp.com/blog.js-republic.com/wp-content/uploads/2017/03/alexa_avs.png?resize=300%2C279" alt="Créez votre premier skill pour Alexa : Partie 1, le fonctionnement" title="Alexa AVS"&gt;&lt;br&gt;
+Vous aimez bricoler et vous cherchez votre prochain projet idéal pour un dimanche pluvieux ? Alors dirigez vous vers le GitHub officiel d’Alexa, régulièrement mis à jour par les développeurs Amazon.&lt;/p&gt;
+&lt;p&gt;Toutes les instructions y sont détaillées pour créer votre Alexa sur Raspberry Pi, Linux, Mac et Windows.&lt;/p&gt;
+&lt;p&gt;Vous procurer un Amazon Echo ou Echo Dot : pas encore disponibles en France mais se trouvent facilement sur eBay&lt;/p&gt;
+&lt;h1 id="etmaintenantcommentjecodemonskill"&gt;ET MAINTENANT COMMENT JE CODE MON « SKILL » ?&lt;/h1&gt;
+&lt;p&gt;Nous verrons ça dans la deuxième partie de cet article 😉&lt;/p&gt;
+&lt;p&gt;Merci de m’avoir lu, et si l’article vous a plu, n’hésitez pas à le partager sur les réseaux sociaux.&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Hello World</title><description>&lt;div class="kg-card-markdown"&gt;&lt;p&gt;Salut, moi c'est Jérémie.&lt;/p&gt;
+&lt;p&gt;Alors voilà, ça fait un moment que je songeais à commencer un blog.&lt;br&gt;
+À la base, il était censé être consacré exclusivement à mes commandes Deliveroo du vendredi soir mais je me suis dit que c'était bête de ne pas y inclure également tous mes petits&lt;/p&gt;&lt;/div&gt;</description><link>http://localhost:2368/une-petite-presentation/</link><guid isPermaLink="false">5a3a9e8faa9a033755260983</guid><dc:creator>Jérémie Zarca</dc:creator><pubDate>Wed, 20 Dec 2017 16:36:33 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/15230654_10154728107462801_7280102167862737793_n-1.png" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/15230654_10154728107462801_7280102167862737793_n-1.png" alt="Hello World"&gt;&lt;p&gt;Salut, moi c'est Jérémie.&lt;/p&gt;
+&lt;p&gt;Alors voilà, ça fait un moment que je songeais à commencer un blog.&lt;br&gt;
+À la base, il était censé être consacré exclusivement à mes commandes Deliveroo du vendredi soir mais je me suis dit que c'était bête de ne pas y inclure également tous mes petits bricolage à base de JS et de Raspberry et d'Arduino.&lt;/p&gt;
+&lt;p&gt;Parce que si vous êtes geeks ou développeurs, vous vous reconnaissez forcément dans cette brève description et donc ca devrait également vous plaire.&lt;/p&gt;
+&lt;p&gt;Merci d'avance de prendre le temps de visiter mon blog et à bientôt ;)&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item></channel></rss>

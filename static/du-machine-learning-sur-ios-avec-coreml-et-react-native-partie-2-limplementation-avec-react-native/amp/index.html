@@ -1,0 +1,352 @@
+<head>
+    <meta charset="utf-8">
+
+    <title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    <link rel="shortcut icon" href="../../favicon.png">
+
+    <meta name="description" content="Dans cette partie, nous allons voir ensemble comment intégrer ce modèle dans une application React-Native">
+    <link rel="shortcut icon" href="../../favicon.png" type="image/png">
+    <link rel="canonical" href="../index.html">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+    <meta property="og:site_name" content="Le Blog du Chabbat">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native">
+    <meta property="og:description" content="Comment intégrer un modèle de classification d'image dans une application React-Native">
+    <meta property="og:url" content="http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/">
+    <meta property="og:image" content="http://jzarca01.github.io/content/images/2018/03/hotdog-3.png">
+    <meta property="article:published_time" content="2018-03-30T14:11:47.000Z">
+    <meta property="article:modified_time" content="2018-03-30T14:17:45.000Z">
+    <meta property="article:tag" content="code">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native">
+    <meta name="twitter:description" content="Comment intégrer un modèle de classification d'image dans une application React-Native">
+    <meta name="twitter:url" content="http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/">
+    <meta name="twitter:image" content="http://jzarca01.github.io/content/images/2018/03/hotdog-2.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Jérémie Zarca">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="code">
+    <meta name="twitter:site" content="@Jeremie__">
+    <meta name="twitter:creator" content="@Jeremie__">
+    <meta property="og:image:width" content="611">
+    <meta property="og:image:height" content="527">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Le Blog du Chabbat",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2017/12/aborich_s.jpg",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Jérémie Zarca",
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://localhost:2368/content/images/2017/12/15230654_10154728107462801_7280102167862737793_n.png",
+            "width": 400,
+            "height": 400
+        },
+        "url": "http://localhost:2368/author/jeremie/",
+        "sameAs": [
+            "https://twitter.com/Jeremie__"
+        ]
+    },
+    "headline": "Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l&#x27;implémentation avec React-Native",
+    "url": "http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/",
+    "datePublished": "2018-03-30T14:11:47.000Z",
+    "dateModified": "2018-03-30T14:17:45.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://localhost:2368/content/images/2018/03/hotdog-1.png",
+        "width": 611,
+        "height": 527
+    },
+    "keywords": "code",
+    "description": "Comment intégrer un modèle de classification d&#x27;image dans une application React-Native",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://localhost:2368/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 1.19">
+    <link rel="alternate" type="application/rss+xml" title="Le Blog du Chabbat" href="../../rss/index.html">
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic%7COpen+Sans:700,600,400">
+    <style amp-custom>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{margin:0.67em 0;font-size:2em}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{position:relative;vertical-align:baseline;font-size:75%;line-height:0}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}amp-img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace, monospace;font-size:1em}button,input,optgroup,select,textarea{margin:0;color:inherit;font:inherit}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{cursor:pointer;-webkit-appearance:button}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{margin:0 2px;padding:0.35em 0.625em 0.75em;border:1px solid #c0c0c0}legend{padding:0;border:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-spacing:0;border-collapse:collapse}td,th{padding:0}html{max-height:100%;height:100%;font-size:62.5%;-webkit-tap-highlight-color:rgba(0, 0, 0, 0)}body{max-height:100%;height:100%;color:#3a4145;background:#f4f8fb;letter-spacing:0.01rem;font-family:"Merriweather", serif;font-size:1.8rem;line-height:1.75em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"kern" 1;-moz-font-feature-settings:"kern" 1;-o-font-feature-settings:"kern" 1}::-moz-selection{background:#d6edff}::selection{background:#d6edff}h1,h2,h3,h4,h5,h6{margin:0 0 0.3em 0;color:#2e2e2e;font-family:"Open Sans", sans-serif;line-height:1.15em;text-rendering:geometricPrecision;-webkit-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-moz-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1;-o-font-feature-settings:"dlig" 1, "liga" 1, "lnum" 1, "kern" 1}h1{text-indent:-2px;letter-spacing:-1px;font-size:2.6rem}h2{letter-spacing:0;font-size:2.4rem}h3{letter-spacing:-0.6px;font-size:2.1rem}h4{font-size:1.9rem}h5{font-size:1.8rem}h6{font-size:1.8rem}a{color:#4a4a4a}a:hover{color:#111}p,ul,ol,dl{margin:0 0 2.5rem 0;font-size:1.5rem;text-rendering:geometricPrecision;-webkit-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-moz-font-feature-settings:"liga" 1, "onum" 1, "kern" 1;-o-font-feature-settings:"liga" 1, "onum" 1, "kern" 1}ol,ul{padding-left:2em}ol ol,ul ul,ul ol,ol ul{margin:0 0 0.4em 0;padding-left:2em}dl dt{float:left;clear:left;overflow:hidden;margin-bottom:1em;width:180px;text-align:right;text-overflow:ellipsis;white-space:nowrap;font-weight:700}dl dd{margin-bottom:1em;margin-left:200px}li{margin:0.4em 0}li li{margin:0}hr{display:block;margin:1.75em 0;padding:0;height:1px;border:0;border-top:#efefef 1px solid}blockquote{box-sizing:border-box;margin:1.75em 0 1.75em 0;padding:0 0 0 1.75em;border-left:#4a4a4a 0.4em solid;-moz-box-sizing:border-box}blockquote p{margin:0.8em 0;font-style:italic}blockquote small{display:inline-block;margin:0.8em 0 0.8em 1.5em;color:#ccc;font-size:0.9em}blockquote small:before{content:"\2014 \00A0"}blockquote cite{font-weight:700}blockquote cite a{font-weight:normal}mark{background-color:#fdffb6}code,tt{padding:1px 3px;border:#e3edf3 1px solid;background:#f7fafb;border-radius:2px;white-space:pre-wrap;font-family:Inconsolata, monospace, sans-serif;font-size:0.85em;font-feature-settings:"liga" 0;-webkit-font-feature-settings:"liga" 0;-moz-font-feature-settings:"liga" 0}pre{overflow:auto;box-sizing:border-box;margin:0 0 1.75em 0;padding:10px;width:100%;border:#e3edf3 1px solid;background:#f7fafb;border-radius:3px;white-space:pre;font-family:Inconsolata, monospace, sans-serif;font-size:0.9em;-moz-box-sizing:border-box}pre code,pre tt{padding:0;border:none;background:transparent;white-space:pre-wrap;font-size:inherit}kbd{display:inline-block;margin-bottom:0.4em;padding:1px 8px;border:#ccc 1px solid;background:#f4f4f4;border-radius:4px;box-shadow:0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 0 #fff inset;color:#666;text-shadow:#fff 0 1px 0;font-size:0.9em;font-weight:700}table{box-sizing:border-box;margin:1.75em 0;max-width:100%;width:100%;background-color:transparent;-moz-box-sizing:border-box}table th,table td{padding:8px;border-top:#efefef 1px solid;vertical-align:top;text-align:left;line-height:20px}table th{color:#000}table caption + thead tr:first-child th,table caption + thead tr:first-child td,table colgroup + thead tr:first-child th,table colgroup + thead tr:first-child td,table thead:first-child tr:first-child th,table thead:first-child tr:first-child td{border-top:0}table tbody + tbody{border-top:#efefef 2px solid}table table table{background-color:#fff}table tbody > tr:nth-child(odd) > td,table tbody > tr:nth-child(odd) > th{background-color:#f6f6f6}table.plain tbody > tr:nth-child(odd) > td,table.plain tbody > tr:nth-child(odd) > th{background:transparent}iframe,amp-iframe,.fluid-width-video-wrapper{display:block;margin:1.75em 0}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper amp-iframe{margin:0}textarea,select,input{margin:0 0 5px 0;padding:6px 9px;width:260px;outline:0;border:#e7eef2 1px solid;background:#fff;border-radius:4px;box-shadow:none;font-family:"Open Sans", sans-serif;font-size:1.6rem;line-height:1.4em;font-weight:100;-webkit-appearance:none}textarea{min-width:250px;min-height:80px;max-width:340px;width:100%;height:auto}input[type="text"]:focus,input[type="email"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="url"]:focus,input[type="password"]:focus,input[type="number"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="week"]:focus,input[type="time"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,textarea:focus{outline:none;outline-width:0;border:#bbc7cc 1px solid;background:#fff}select{width:270px;height:30px;line-height:30px}.clearfix:before,.clearfix:after{content:" ";display:table}.clearfix:after{clear:both}.clearfix{zoom:1}.main-header{position:relative;display:table;overflow:hidden;box-sizing:border-box;width:100%;height:50px;background:#5ba4e5 no-repeat center center;background-size:cover;text-align:left;-webkit-box-sizing:border-box;-moz-box-sizing:border-box}.content{background:#fff;padding-top:15px}.blog-title,.content{margin:auto;max-width:600px}.blog-title a{display:block;padding-right:16px;padding-left:16px;height:50px;color:#fff;text-decoration:none;font-family:"Open Sans", sans-serif;font-size:16px;line-height:50px;font-weight:600}.post{position:relative;margin-top:0;margin-right:16px;margin-left:16px;padding-bottom:0;max-width:100%;border-bottom:#ebf2f6 1px solid;word-wrap:break-word;font-size:0.95em;line-height:1.65em}.post-header{margin-bottom:1rem}.post-title{margin-bottom:0}.post-title a{text-decoration:none}.post-meta{display:block;margin:3px 0 0 0;color:#9eabb3;font-family:"Open Sans", sans-serif;font-size:1.3rem;line-height:2.2rem}.post-meta a{color:#9eabb3;text-decoration:none}.post-meta a:hover{text-decoration:underline}.post-meta .author{margin:0;font-size:1.3rem;line-height:1.3em}.post-date{display:inline-block;text-transform:uppercase;white-space:nowrap;font-size:1.2rem;line-height:1.2em}.post-image{margin:0;padding-top:3rem;padding-bottom:30px;border-top:1px #E8E8E8 solid}.post-content amp-img,.post-content amp-anim{position:relative;left:50%;display:block;padding:0;min-width:0;max-width:112%;width:calc(100% + 32px);height:auto;transform:translateX(-50%);-webkit-transform:translateX(-50%);-ms-transform:translateX(-50%)}.footnotes{font-size:1.3rem;line-height:1.6em;font-style:italic}.footnotes li{margin:0.6rem 0}.footnotes p{margin:0}.footnotes p a:last-child{text-decoration:none}.site-footer{position:relative;margin:0 auto 20px auto;padding:1rem 15px;max-width:600px;color:rgba(0,0,0,0.5);font-family:"Open Sans", sans-serif;font-size:1.1rem;line-height:1.75em}.site-footer a{color:rgba(0,0,0,0.5);text-decoration:none;font-weight:bold}.site-footer a:hover{border-bottom:#bbc7cc 1px solid}.poweredby{display:block;float:right;width:45%;text-align:right}.copyright{display:block;float:left;width:45%}</style>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+
+    <script async custom-element="amp-anim" src="https://cdn.ampproject.org/v0/amp-anim-0.1.js"></script>
+
+</head>
+
+<body class="amp-template">
+    <header class="main-header">
+        <nav class="blog-title">
+            <a href="../../">Le Blog du Chabbat</a>
+        </nav>
+    </header>
+
+    <main class="content" role="main">
+        <article class="post">
+
+            <header class="post-header">
+                <h1 class="post-title">Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native</h1>
+                <section class="post-meta">
+                    <p class="author">by <a href="../../author/jeremie/">Jérémie Zarca</a></p>
+                    <time class="post-date" datetime="2018-03-30">2018-03-30</time>
+                </section>
+            </header>
+            <figure class="post-image">
+                <amp-img src="http://localhost:2368/content/images/2018/03/hotdog-1.png" width="600" height="400" layout="responsive"></amp-img>
+            </figure>
+            <section class="post-content">
+
+                <div class="kg-card-markdown"><p>Si vous êtes arrivés à cette partie, ca veut dire que normalement vous avez votre propre modèle de Machine Learning. Si ce n'est pas le cas, je vous invite à lire <a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">la première partie de ce tutoriel</a>.</p>
+<p>Dans cette partie, nous allons voir ensemble comment intégrer ce modèle dans une application React-Native en utilisant la librairie <em>react-native-core-ml-image</em>, qui apporte les bindings au module natif CoreML d'Apple.</p>
+<p></p>
+<h2 id="cequevousallezaccomplirdanscettepartie">Ce que vous allez accomplir dans cette partie</h2>
+<ul>
+<li>Créer un nouveau projet React-Native</li>
+<li>Configurer Xcode pour faire marcher la librairie de Machine Learning</li>
+<li>Reconnaître un hotdog grâce à la caméra de votre iPhone</li>
+</ul>
+<h2 id="lesprrequis">Les prérequis</h2>
+<ul>
+<li>macOS 10.12+</li>
+<li>Xcode 9</li>
+<li>iOS 11+</li>
+</ul>
+<h2 id="crerunprojetreactnative">Créer un projet React-Native</h2>
+<p>Tout d'abord, il faudra créer un nouveau projet React-Native.<br>
+Ouvrez votre terminal, naviguez dans votre dossier de projets et entrez la commande suivante:</p>
+<pre><code>react-native init notHotDog (ou tout autre nom)
+</code></pre>
+<p>Au bout de quelques minutes, tout sera installé et vous serez prêt à passer à la suite.</p>
+<h2 id="installerlalibrairiecoreml">Installer la librairie CoreML</h2>
+<p>Nous allons utiliser la librairie <a href="https://www.npmjs.com/package/react-native-core-ml-image">react-native-core-ml-image</a></p>
+<pre><code>npm install --save react-native-core-ml-image
+react-native link
+</code></pre>
+<p>Allez dans votre projet, puis dans le dossier "ios" et double-cliquez sur le fichier notHotDog.xcodeproj pour l'ouvrir dans Xcode</p>
+<h2 id="configurerleprojet">Configurer le projet</h2>
+<p>Par défaut, les projets en React-Native sont configurés pour utiliser principalement Objective-C. La librairie <em>react-native-core-ml-image</em> étant écrite en Swift, il va falloir changer quelques paramètres dans le projet</p>
+<p>Tout d'abord, il va falloir ajouter un fichier Swift au projet</p>
+<p><br>
+</p>
+<p>Le nom importe peu, il ne sera de toute façon pas utilisé. Un message apparaît alors vous proposant de créer un "Objective-C Bridging Header": c’est le fichier qui sert à faire le lien entre Swift et les fichiers entête des Classes Objective-C</p>
+<p></p>
+<p>Enfin, la librairie étant écrite en Swift 4.0, il va falloir spécifier la version de Swift à utiliser (la 3.2 étant la version par défaut).<br>
+Cliquez sur la racine du projet (notHotDog), séléctionnez l'onglet "Build Settings", puis tout en bas, changez la version du langage Swift à utiliser.</p>
+<p></p>
+<h2 id="importerlemodlecoremldansleprojet">Importer le modèle CoreML dans le projet</h2>
+<p>Avant de passer à la partie programmation, il ne reste plus qu'à importer notre modèle de classification d'images dans le projet notHotDog.<br>
+Glissez-déposer le modèle (Classifier.mlmodel) et renommez-le notHotDog.mlmodelc (non ce n'est pas une faute de frappe)</p>
+<p></p>
+<p>CoreML ne fonctionne pas directement avec les fichiers *.mlmodel, il faut d'abord les traduire en *.mlmodelc (c pour compiled), mais notre script Python s'en est déjà occupé.</p>
+<pre><code class="language-python"># Export for use in Core ML
+model.export_coreml('Classifier.mlmodel')
+</code></pre>
+<p>Si vous n'avez pas de modèle, je vous invite à lire <a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">la première partie de ce tutoriel</a>, qui vous guidera dans <a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">la création d'un modèle de classification d'images avec Turi Create</a>.</p>
+<h2 id="autoriserlaccslacamra">Autoriser l'accès à la caméra</h2>
+<p>Dans le fichier Info.plist, cliquez sur le petit plus à la droite de chaque entrée et ajoutez "Privacy - Camera Usage Description" comme montré ci-dessous</p>
+<p></p>
+<p>C'est tout pour la configuration ! Il ne reste plus qu'à implémenter tout cela.</p>
+<p><amp-anim src="https://media.giphy.com/media/QHE5gWI0QjqF2/giphy.gif" alt="gif code" width="720" height="480" layout="responsive"></amp-anim></p>
+<h2 id="implmenterlecode">Implémenter le code</h2>
+<p>La première chose à faire est d'importer la librairie <em>react-native-core-ml-image</em> dans le projet. Pour cet exemple, tout le code se situera dans le fichier App.js</p>
+<pre><code>import CoreMLImage from 'react-native-core-ml-image'
+</code></pre>
+<p>Ensuite, remplacez toute la méthode render() par ce qui vient ci-après:</p>
+<pre><code class="language-javascript">render() {
+    let classification = null;
+
+    if (this.state.bestMatch) {
+      if (this.state.bestMatch.identifier &amp;&amp; this.state.bestMatch.identifier == "hotdog") {
+        classification = "Hotdog";
+      } else {
+        classification = "Not hotdog";
+      }
+    }
+
+    return (
+      &lt;View style={styles.container}&gt;
+          &lt;CoreMLImage modelFile="notHotDog" onClassification={(evt) =&gt; this.onClassification(evt)}&gt;
+              &lt;View style={styles.container}&gt;
+                &lt;Text style={styles.info}&gt;{classification}&lt;/Text&gt;
+              &lt;/View&gt;
+          &lt;/CoreMLImage&gt;
+      &lt;/View&gt;
+    );
+  }
+</code></pre>
+<p>La méthode <em>onClassification</em> nous permet de recevoir des updates quand un nouvel objet a été classifié. Il renvoie les données suivantes:</p>
+<pre><code class="language-json">[{
+    identifier: "hotdog",
+    confidence: 0.87
+},
+{
+    identifier: "not-hotdog",
+    confidence: 0.4
+}]
+</code></pre>
+<p>Nous n'avons plus qu'à implémenter la méthode <em>onClassification</em> qui se charge de trouver la meilleure classification.</p>
+<pre><code class="language-javascript">onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;&amp; classifications.length) {
+      classifications.map(classification =&gt; {
+        if (!bestMatch || classification.confidence &gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
+</code></pre>
+<p>Si l'on se base sur les données précédentes, alors bestMatch vaudra</p>
+<pre><code class="language-json">{
+    identifier: "hotdog",
+    confidence: 0.87
+}
+</code></pre>
+<p>Voici le code complet:</p>
+<pre><code class="language-javascript">import React, { Component } from 'react';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import idx from 'idx';
+
+const BEST_MATCH_THRESHOLD = 0.5;
+
+import CoreMLImage from "react-native-core-ml-image";
+
+export default class App extends Component&lt;{}&gt; {
+
+  constructor() {
+    super();
+    this.state = {
+      bestMatch: null
+    };
+  }
+
+  onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;&amp; classifications.length) {
+      classifications.map(classification =&gt; {
+        if (!bestMatch || classification.confidence &gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
+
+  classify() {
+    if (idx(this.state, _ =&gt; _.bestMatch.identifier) ) {
+      if (this.state.bestMatch.identifier == "hotdog") {
+        return "Hotdog";
+      } else {
+        return "Not hotdog";
+      }
+    }
+  }
+
+
+  render() {
+    return (
+      &lt;View style={styles.container}&gt;
+          &lt;CoreMLImage modelFile="notHotDog" onClassification={(evt) =&gt; this.onClassification(evt)}&gt;
+              &lt;View style={styles.container}&gt;
+                &lt;Text style={styles.info}&gt;{classify()}&lt;/Text&gt;
+              &lt;/View&gt;
+          &lt;/CoreMLImage&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  info: {
+    fontSize: 20,
+    color: "#ffffff",
+    textAlign: 'center',
+    fontWeight: "900",
+    margin: 10,
+  }
+});
+</code></pre>
+<p>Il ne vous reste plus qu'à éxecuter le code sur votre iPhone (cela ne fonctionnera pas sur le simulateur).</p>
+<p>Si vous avez tout bien fait, l'app vous demandera la permission d'accéder à votre appareil photo et vous pourrez alors distinguer un hotdog du teckel de votre voisine.</p>
+<p>Merci de m'avoir lu, et si l'article vous a plu, n'hésitez pas à le partager sur les réseaux sociaux.</p>
+<p>Jérémie.</p>
+</div>
+
+            </section>
+
+        </article>
+    </main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="../../">Le Blog du Chabbat</a> © 2018</section>
+        <section class="poweredby">Proudly published with <a href="https://ghost.org">Ghost</a></section>
+    </footer>
+</body>
