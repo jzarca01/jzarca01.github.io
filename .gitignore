@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-.node_modules/
-.DS_Store
-yarn.lock
-package.lock
-=======
 node_modules/
 .DS_Store
 yarn.lock
 package-lock.json
->>>>>>> 013a680ecbb32dbd587cf1fe7d00c87ca7892719
