@@ -1,4 +1,228 @@
+<<<<<<< HEAD
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Le Blog du Chabbat</title><description>Fooding et coding du vendredi soir au samedi soir</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>Le Blog du Chabbat</title><link>http://localhost:2368/</link></image><generator>Ghost 1.19</generator><lastBuildDate>Sat, 11 Aug 2018 11:24:33 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle</title><description>Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.</description><link>http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/</link><guid isPermaLink="false">5aad0e5b54c16c6aed139ec7</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Sat, 17 Mar 2018 13:00:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/03/hotdog-or-not-hotdog-app.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/03/hotdog-or-not-hotdog-app.jpg" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle"&gt;&lt;p&gt;Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.&lt;/p&gt;
+=======
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>Le Blog du Chabbat</title><description>Fooding et coding du vendredi soir au samedi soir</description><link>http://localhost:2368/</link><image><url>http://localhost:2368/favicon.png</url><title>Le Blog du Chabbat</title><link>http://localhost:2368/</link></image><generator>Ghost 1.19</generator><lastBuildDate>Fri, 30 Mar 2018 14:48:53 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native</title><description>Comment intégrer un modèle de classification d'image dans une application React-Native</description><link>http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/</link><guid isPermaLink="false">5abe44119e8405559edb73ec</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Fri, 30 Mar 2018 14:11:47 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/03/hotdog-1.png" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/03/hotdog-1.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;p&gt;Si vous êtes arrivés à cette partie, ca veut dire que normalement vous avez votre propre modèle de Machine Learning. Si ce n'est pas le cas, je vous invite à lire &lt;a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/"&gt;la première partie de ce tutoriel&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Dans cette partie, nous allons voir ensemble comment intégrer ce modèle dans une application React-Native en utilisant la librairie &lt;em&gt;react-native-core-ml-image&lt;/em&gt;, qui apporte les bindings au module natif CoreML d'Apple.&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/Hot-Dog-Illustration-GIF-downsized_large.gif" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;h2 id="cequevousallezaccomplirdanscettepartie"&gt;Ce que vous allez accomplir dans cette partie&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Créer un nouveau projet React-Native&lt;/li&gt;
+&lt;li&gt;Configurer Xcode pour faire marcher la librairie de Machine Learning&lt;/li&gt;
+&lt;li&gt;Reconnaître un hotdog grâce à la caméra de votre iPhone&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="lesprrequis"&gt;Les prérequis&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 10.12+&lt;/li&gt;
+&lt;li&gt;Xcode 9&lt;/li&gt;
+&lt;li&gt;iOS 11+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="crerunprojetreactnative"&gt;Créer un projet React-Native&lt;/h2&gt;
+&lt;p&gt;Tout d'abord, il faudra créer un nouveau projet React-Native.&lt;br&gt;
+Ouvrez votre terminal, naviguez dans votre dossier de projets et entrez la commande suivante:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;react-native init notHotDog (ou tout autre nom)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Au bout de quelques minutes, tout sera installé et vous serez prêt à passer à la suite.&lt;/p&gt;
+&lt;h2 id="installerlalibrairiecoreml"&gt;Installer la librairie CoreML&lt;/h2&gt;
+&lt;p&gt;Nous allons utiliser la librairie &lt;a href="https://www.npmjs.com/package/react-native-core-ml-image"&gt;react-native-core-ml-image&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install --save react-native-core-ml-image
+react-native link
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Allez dans votre projet, puis dans le dossier &amp;quot;ios&amp;quot; et double-cliquez sur le fichier notHotDog.xcodeproj pour l'ouvrir dans Xcode&lt;/p&gt;
+&lt;h2 id="configurerleprojet"&gt;Configurer le projet&lt;/h2&gt;
+&lt;p&gt;Par défaut, les projets en React-Native sont configurés pour utiliser principalement Objective-C. La librairie &lt;em&gt;react-native-core-ml-image&lt;/em&gt; étant écrite en Swift, il va falloir changer quelques paramètres dans le projet&lt;/p&gt;
+&lt;p&gt;Tout d'abord, il va falloir ajouter un fichier Swift au projet&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/add_file.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;br&gt;
+&lt;img src="http://localhost:2368/content/images/2018/03/swift.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;p&gt;Le nom importe peu, il ne sera de toute façon pas utilisé. Un message apparaît alors vous proposant de créer un &amp;quot;Objective-C Bridging Header&amp;quot;: c’est le fichier qui sert à faire le lien entre Swift et les fichiers entête des Classes Objective-C&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/bridging_header.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;p&gt;Enfin, la librairie étant écrite en Swift 4.0, il va falloir spécifier la version de Swift à utiliser (la 3.2 étant la version par défaut).&lt;br&gt;
+Cliquez sur la racine du projet (notHotDog), séléctionnez l'onglet &amp;quot;Build Settings&amp;quot;, puis tout en bas, changez la version du langage Swift à utiliser.&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/swift_version.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;h2 id="importerlemodlecoremldansleprojet"&gt;Importer le modèle CoreML dans le projet&lt;/h2&gt;
+&lt;p&gt;Avant de passer à la partie programmation, il ne reste plus qu'à importer notre modèle de classification d'images dans le projet notHotDog.&lt;br&gt;
+Glissez-déposer le modèle (Classifier.mlmodel) et renommez-le notHotDog.mlmodelc (non ce n'est pas une faute de frappe)&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/mlmodelc.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;p&gt;CoreML ne fonctionne pas directement avec les fichiers *.mlmodel, il faut d'abord les traduire en *.mlmodelc (c pour compiled), mais notre script Python s'en est déjà occupé.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-python"&gt;# Export for use in Core ML
+model.export_coreml('Classifier.mlmodel')
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Si vous n'avez pas de modèle, je vous invite à lire &lt;a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/"&gt;la première partie de ce tutoriel&lt;/a&gt;, qui vous guidera dans &lt;a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/"&gt;la création d'un modèle de classification d'images avec Turi Create&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="autoriserlaccslacamra"&gt;Autoriser l'accès à la caméra&lt;/h2&gt;
+&lt;p&gt;Dans le fichier Info.plist, cliquez sur le petit plus à la droite de chaque entrée et ajoutez &amp;quot;Privacy - Camera Usage Description&amp;quot; comme montré ci-dessous&lt;/p&gt;
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2018/03/camera.png" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;p&gt;C'est tout pour la configuration ! Il ne reste plus qu'à implémenter tout cela.&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://media.giphy.com/media/QHE5gWI0QjqF2/giphy.gif" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native"&gt;&lt;/p&gt;
+&lt;h2 id="implmenterlecode"&gt;Implémenter le code&lt;/h2&gt;
+&lt;p&gt;La première chose à faire est d'importer la librairie &lt;em&gt;react-native-core-ml-image&lt;/em&gt; dans le projet. Pour cet exemple, tout le code se situera dans le fichier App.js&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import CoreMLImage from 'react-native-core-ml-image'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ensuite, remplacez toute la méthode render() par ce qui vient ci-après:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;render() {
+    let classification = null;
+
+    if (this.state.bestMatch) {
+      if (this.state.bestMatch.identifier &amp;amp;&amp;amp; this.state.bestMatch.identifier == &amp;quot;hotdog&amp;quot;) {
+        classification = &amp;quot;Hotdog&amp;quot;;
+      } else {
+        classification = &amp;quot;Not hotdog&amp;quot;;
+      }
+    }
+
+    return (
+      &amp;lt;View style={styles.container}&amp;gt;
+          &amp;lt;CoreMLImage modelFile=&amp;quot;notHotDog&amp;quot; onClassification={(evt) =&amp;gt; this.onClassification(evt)}&amp;gt;
+              &amp;lt;View style={styles.container}&amp;gt;
+                &amp;lt;Text style={styles.info}&amp;gt;{classification}&amp;lt;/Text&amp;gt;
+              &amp;lt;/View&amp;gt;
+          &amp;lt;/CoreMLImage&amp;gt;
+      &amp;lt;/View&amp;gt;
+    );
+  }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La méthode &lt;em&gt;onClassification&lt;/em&gt; nous permet de recevoir des updates quand un nouvel objet a été classifié. Il renvoie les données suivantes:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-json"&gt;[{
+    identifier: &amp;quot;hotdog&amp;quot;,
+    confidence: 0.87
+},
+{
+    identifier: &amp;quot;not-hotdog&amp;quot;,
+    confidence: 0.4
+}]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nous n'avons plus qu'à implémenter la méthode &lt;em&gt;onClassification&lt;/em&gt; qui se charge de trouver la meilleure classification.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;amp;&amp;amp; classifications.length) {
+      classifications.map(classification =&amp;gt; {
+        if (!bestMatch || classification.confidence &amp;gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &amp;gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Si l'on se base sur les données précédentes, alors bestMatch vaudra&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-json"&gt;{
+    identifier: &amp;quot;hotdog&amp;quot;,
+    confidence: 0.87
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Voici le code complet:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-javascript"&gt;import React, { Component } from 'react';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import idx from 'idx';
+
+const BEST_MATCH_THRESHOLD = 0.5;
+
+import CoreMLImage from &amp;quot;react-native-core-ml-image&amp;quot;;
+
+export default class App extends Component&amp;lt;{}&amp;gt; {
+
+  constructor() {
+    super();
+    this.state = {
+      bestMatch: null
+    };
+  }
+
+  onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;amp;&amp;amp; classifications.length) {
+      classifications.map(classification =&amp;gt; {
+        if (!bestMatch || classification.confidence &amp;gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &amp;gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
+
+  classify() {
+    if (idx(this.state, _ =&amp;gt; _.bestMatch.identifier) ) {
+      if (this.state.bestMatch.identifier == &amp;quot;hotdog&amp;quot;) {
+        return &amp;quot;Hotdog&amp;quot;;
+      } else {
+        return &amp;quot;Not hotdog&amp;quot;;
+      }
+    }
+  }
+
+
+  render() {
+    return (
+      &amp;lt;View style={styles.container}&amp;gt;
+          &amp;lt;CoreMLImage modelFile=&amp;quot;notHotDog&amp;quot; onClassification={(evt) =&amp;gt; this.onClassification(evt)}&amp;gt;
+              &amp;lt;View style={styles.container}&amp;gt;
+                &amp;lt;Text style={styles.info}&amp;gt;{classify()}&amp;lt;/Text&amp;gt;
+              &amp;lt;/View&amp;gt;
+          &amp;lt;/CoreMLImage&amp;gt;
+      &amp;lt;/View&amp;gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  info: {
+    fontSize: 20,
+    color: &amp;quot;#ffffff&amp;quot;,
+    textAlign: 'center',
+    fontWeight: &amp;quot;900&amp;quot;,
+    margin: 10,
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il ne vous reste plus qu'à éxecuter le code sur votre iPhone (cela ne fonctionnera pas sur le simulateur).&lt;/p&gt;
+&lt;p&gt;Si vous avez tout bien fait, l'app vous demandera la permission d'accéder à votre appareil photo et vous pourrez alors distinguer un hotdog du teckel de votre voisine.&lt;/p&gt;
+&lt;p&gt;Merci de m'avoir lu, et si l'article vous a plu, n'hésitez pas à le partager sur les réseaux sociaux.&lt;/p&gt;
+&lt;p&gt;Jérémie.&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle</title><description>Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.</description><link>http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/</link><guid isPermaLink="false">5aad0e5b54c16c6aed139ec7</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Sat, 17 Mar 2018 12:00:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/03/hotdog-or-not-hotdog-app.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/03/hotdog-or-not-hotdog-app.jpg" alt="Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle"&gt;&lt;p&gt;Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.&lt;/p&gt;
+>>>>>>> 39d8afa453ebce2f5d93eaa02ee51688513d83c3
 &lt;p&gt;Les solutions de Machine Learning sont depuis longtemps disponibles dans le cloud via des API, mais elles demandaient une connexion internet et leur temps de traitement pouvait s'avérer long et coûteux à la fois.&lt;/p&gt;
 &lt;p&gt;Avec la sortie d'iOS 11, Apple a mis à disposition des développeurs sa librairie de Machine Learning, CoreML. Désormais, il n'est plus nécessaire d'avoir un serveur puissant pour traiter les reqûetes ou faire appel à une API tierce. CoreML s'occupe de tout avec la puissance de calcul de votre smartphone.&lt;/p&gt;
 &lt;p&gt;Vous êtes curieux de savoir comment l'intégrer dans vos applications ? C'est plus simple que ce que vous pourriez penser.&lt;/p&gt;
@@ -84,7 +308,7 @@ python train-model.py
 &lt;p&gt;Jérémie.&lt;/p&gt;
 &lt;/div&gt;</content:encoded></item><item><title>Les 4 choses que j'ai apprises après mon premier talk technique</title><description>&lt;div class="kg-card-markdown"&gt;&lt;p&gt;La semaine dernière j'ai donné mon deuxième talk sur le développement JavaScript, où j'ai parlé de &lt;a href="http://truffleframework.com/"&gt;Truffle&lt;/a&gt; et &lt;a href="https://soliditylang.com/"&gt;Solidity&lt;/a&gt; à un groupe de développeurs de chez JS-Republic.&lt;br&gt;
 J'ai été très content du résultat et j'espère être capable de continuer à en faire dans le futur.&lt;br&gt;
-Voici les conseils que je&lt;/p&gt;&lt;/div&gt;</description><link>http://localhost:2368/les-4-choses-que-jai-apprises-apres-mon-premier-talk-technique/</link><guid isPermaLink="false">5a884878061b81038cd7ed51</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Sat, 17 Feb 2018 15:30:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/02/20171116_121348.jpg-2.jpeg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/02/20171116_121348.jpg-2.jpeg" alt="Les 4 choses que j'ai apprises après mon premier talk technique"&gt;&lt;p&gt;La semaine dernière j'ai donné mon deuxième talk sur le développement JavaScript, où j'ai parlé de &lt;a href="http://truffleframework.com/"&gt;Truffle&lt;/a&gt; et &lt;a href="https://soliditylang.com/"&gt;Solidity&lt;/a&gt; à un groupe de développeurs de chez JS-Republic.&lt;br&gt;
+Voici les conseils que je&lt;/p&gt;&lt;/div&gt;</description><link>http://localhost:2368/les-4-choses-que-jai-apprises-apres-mon-premier-talk-technique/</link><guid isPermaLink="false">5a884878061b81038cd7ed51</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Sat, 17 Feb 2018 14:30:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2018/02/20171116_121348.jpg-2.jpeg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2018/02/20171116_121348.jpg-2.jpeg" alt="Les 4 choses que j'ai apprises après mon premier talk technique"&gt;&lt;p&gt;La semaine dernière j'ai donné mon deuxième talk sur le développement JavaScript, où j'ai parlé de &lt;a href="http://truffleframework.com/"&gt;Truffle&lt;/a&gt; et &lt;a href="https://soliditylang.com/"&gt;Solidity&lt;/a&gt; à un groupe de développeurs de chez JS-Republic.&lt;br&gt;
 J'ai été très content du résultat et j'espère être capable de continuer à en faire dans le futur.&lt;br&gt;
 Voici les conseils que je peux donner.&lt;/p&gt;
 &lt;h2 id="laprparationestprimordiale"&gt;La préparation est primordiale&lt;/h2&gt;
@@ -110,7 +334,7 @@ C'est toute cette préparation et ces échanges qui feront de vous un expert.&lt
 Parce qu'après tout, notre but à tous, c'est d'en apprendre davantage, dans un cadre convivial.&lt;/p&gt;
 &lt;p&gt;Merci de m'avoir lu, et si l'article vous a plu, n'hésitez pas à le partager au plus grand nombre.&lt;br&gt;
 Jérémie.&lt;/p&gt;
-&lt;/div&gt;</content:encoded></item><item><title>Le Morning California de chez Paris New York</title><description>Test du Morning California de chez Paris New York</description><link>http://localhost:2368/le-morning-california-de-chez-paris-new-york/</link><guid isPermaLink="false">5a46ba8405994c49f7520834</guid><category>food</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Fri, 29 Dec 2017 22:01:35 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/IMG_4959-1.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/IMG_4959-1.jpg" alt="Le Morning California de chez Paris New York"&gt;&lt;p&gt;Premier article fooding pour le Blog du Chabbat, c'est ainsi que commence mon aventure pour trouver le meilleur burger de Paris.&lt;/p&gt;
+&lt;/div&gt;</content:encoded></item><item><title>Le Morning California de chez Paris New York</title><description>Test du Morning California de chez Paris New York</description><link>http://localhost:2368/le-morning-california-de-chez-paris-new-york/</link><guid isPermaLink="false">5a46ba8405994c49f7520834</guid><category>food</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Fri, 29 Dec 2017 21:01:35 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/IMG_4959-1.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/IMG_4959-1.jpg" alt="Le Morning California de chez Paris New York"&gt;&lt;p&gt;Premier article fooding pour le Blog du Chabbat, c'est ainsi que commence mon aventure pour trouver le meilleur burger de Paris.&lt;/p&gt;
 &lt;h2 id="parisnewyorkunvraigotdeburgeroberkampf"&gt;Paris - New York : un vrai goût de burger à Oberkampf&lt;/h2&gt;
 &lt;p&gt;En tout cas, c’est la promesse que nous fait le PNY, alias Paris – New York : un vrai burger à l'américaine, mais avec des produits qualitatifs.&lt;br&gt;
 Boeuf du Ponclet, cheddar fermier affiné pendant 9 mois, frites maisons : sur le papier, le PNY a tout pour réussir un burger de qualité.&lt;/p&gt;
@@ -129,7 +353,12 @@ Lors de la commande, on m'a demandé de spécifier ma cuisson: j'ai choisi à po
 &lt;h2 id="enconclusion"&gt;En conclusion&lt;/h2&gt;
 &lt;p&gt;Paris New York fait de très bons burgers, un peu onéreux (13€ pour le Morning California) mais la qualité et le goût sont au rendez-vous. N'hésitez pas à y goûter si vous y avez l'occasion.&lt;/p&gt;
 &lt;p&gt;Et pour économiser 2,50€ sur Deliveroo (marche également en navigation privée), voici mon lien de parrainage: &lt;a href="http://roo.it/jeremiez0386"&gt;http://roo.it/jeremiez0386&lt;/a&gt;&lt;/p&gt;
+<<<<<<< HEAD
 &lt;/div&gt;</content:encoded></item><item><title>Créez votre premier skill pour Alexa : Partie 2, la mise en pratique</title><description>Créez votre premier skill pour Alexa: Partie 2, la mise en pratique.</description><link>http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-2/</link><guid isPermaLink="false">5a3a8ff1aa9a033755260980</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Thu, 21 Dec 2017 18:30:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/amazonecho_4-100599473-orig.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/amazonecho_4-100599473-orig.jpg" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;p&gt;Dans cette partie nous allons voir comment créer votre premier skill pour connaître la météo dans n’importe quelle ville d’Europe et à la fin de cet article vous pourrez repartir avec, c’est promis.&lt;/p&gt;
+=======
+&lt;/div&gt;</content:encoded></item><item><title>Créez votre premier skill pour Alexa : Partie 2, la mise en pratique</title><description>Créez votre premier skill pour Alexa: Partie 2, la mise en pratique.</description><link>http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-2/</link><guid isPermaLink="false">5a3a8ff1aa9a033755260980</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Thu, 21 Dec 2017 17:30:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/amazonecho_4-100599473-orig.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/amazonecho_4-100599473-orig.jpg" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;p&gt;&lt;em&gt;Cet article est paru en premier lieu sur le blog de JS-Republic: &lt;a href="http://blog.js-republic.com/alexa-creer-votre-skill-partie-2/"&gt;http://blog.js-republic.com/alexa-creer-votre-skill-partie-2/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Dans cette partie nous allons voir comment créer votre premier skill pour connaître la météo dans n’importe quelle ville d’Europe et à la fin de cet article vous pourrez repartir avec, c’est promis.&lt;/p&gt;
+>>>>>>> 39d8afa453ebce2f5d93eaa02ee51688513d83c3
 &lt;p&gt;Maintenant que vous avez assimilé tous les concepts importants associés à la création de skills pour Alexa, nous pouvons enfin rentrer dans le vif du sujet. Si ce n’est pas le cas, n’hésitez surtout pas à relire la première partie de cet article.&lt;/p&gt;
 &lt;h3 id="lesprrequispourcettepartie"&gt;Les pré-requis pour cette partie :&lt;/h3&gt;
 &lt;p&gt;– Un compte sur le portail développeur Amazon (&lt;a href="https://developer.amazon.com/edw/home.html#/"&gt;https://developer.amazon.com/edw/home.html#/&lt;/a&gt;)&lt;br&gt;
@@ -244,7 +473,12 @@ Par défaut, votre skill est activé, mais si ce n’était pas le cas, il faudr
 En attendant, libérez votre créativité pour créer des skills toujours plus merveilleux.&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://i1.wp.com/media.giphy.com/media/106holZERgWSFG/giphy.gif?resize=413%2C234&amp;amp;ssl=1" alt="Créez votre premier skill pour Alexa : Partie 2, la mise en pratique"&gt;&lt;/p&gt;
 &lt;p&gt;Merci de m’avoir lu, et si l’article vous a plu, n’hésitez pas à le partager sur les réseaux sociaux.&lt;/p&gt;
+<<<<<<< HEAD
 &lt;/div&gt;</content:encoded></item><item><title>Créez votre premier skill pour Alexa : Partie 1, le fonctionnement</title><description>Créez votre premier skill pour Alexa: Partie 1, le fonctionnement</description><link>http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-1/</link><guid isPermaLink="false">5a3a8d79aa9a03375526097f</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Wed, 20 Dec 2017 18:00:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" alt="Créez votre premier skill pour Alexa : Partie 1, le fonctionnement"&gt;&lt;p&gt;Alexa, si vous l’ignoriez, c’est le joujou high-tech à la mode. C’est l’assistant conversationnel avec lequel vous interagissez par la voix. Vous pouvez lui poser tout un tas de questions, plugger des « skills » et même contrôler vos installations domotiques par la voix. Les « skills », ce sont les applications que l’on appelle et contrôle par la voix.&lt;/p&gt;
+=======
+&lt;/div&gt;</content:encoded></item><item><title>Créez votre premier skill pour Alexa : Partie 1, le fonctionnement</title><description>Créez votre premier skill pour Alexa: Partie 1, le fonctionnement</description><link>http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-1/</link><guid isPermaLink="false">5a3a8d79aa9a03375526097f</guid><category>code</category><dc:creator>Jérémie Zarca</dc:creator><pubDate>Wed, 20 Dec 2017 17:00:00 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/amazon-echo-2016-promo-pic-2.jpg" alt="Créez votre premier skill pour Alexa : Partie 1, le fonctionnement"&gt;&lt;p&gt;&lt;em&gt;Cet article est paru en premier lieu sur le blog de JS-Republic: &lt;a href="http://blog.js-republic.com/alexa-creer-votre-skill-partie-1/"&gt;http://blog.js-republic.com/alexa-creer-votre-skill-partie-1/&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Alexa, si vous l’ignoriez, c’est le joujou high-tech à la mode. C’est l’assistant conversationnel avec lequel vous interagissez par la voix. Vous pouvez lui poser tout un tas de questions, plugger des « skills » et même contrôler vos installations domotiques par la voix. Les « skills », ce sont les applications que l’on appelle et contrôle par la voix.&lt;/p&gt;
+>>>>>>> 39d8afa453ebce2f5d93eaa02ee51688513d83c3
 &lt;p&gt;Alexa, c’est également l’interface au travers de laquelle les marques interagiront avec leurs clients demain. Et si l’on connaît le même engouement que pour le marché des applications mobile, mieux vaut être prêt pour obtenir sa part du gâteau.&lt;/p&gt;
 &lt;p&gt;Alors qu’un scandale sur les techniques d’espionnage vient d’éclater et qu’une vidéo remettant en question les liens entre Amazon et la CIA est devenue virale, il n’y avait pas de meilleur moment pour écrire cet article.&lt;/p&gt;
 &lt;p&gt;Si cela n’a pas alerté le Snowden qui sommeille en vous, alors vous pouvez continuer à lire cet article et découvrir comment développer votre premier skill pour Alexa.&lt;/p&gt;
@@ -325,7 +559,7 @@ Vous aimez bricoler et vous cherchez votre prochain projet idéal pour un dimanc
 &lt;p&gt;Merci de m’avoir lu, et si l’article vous a plu, n’hésitez pas à le partager sur les réseaux sociaux.&lt;/p&gt;
 &lt;/div&gt;</content:encoded></item><item><title>Hello World</title><description>&lt;div class="kg-card-markdown"&gt;&lt;p&gt;Salut, moi c'est Jérémie.&lt;/p&gt;
 &lt;p&gt;Alors voilà, ça fait un moment que je songeais à commencer un blog.&lt;br&gt;
-À la base, il était censé être consacré exclusivement à mes commandes Deliveroo du vendredi soir mais je me suis dit que c'était bête de ne pas y inclure également tous mes petits&lt;/p&gt;&lt;/div&gt;</description><link>http://localhost:2368/une-petite-presentation/</link><guid isPermaLink="false">5a3a9e8faa9a033755260983</guid><dc:creator>Jérémie Zarca</dc:creator><pubDate>Wed, 20 Dec 2017 17:36:33 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/15230654_10154728107462801_7280102167862737793_n-1.png" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/15230654_10154728107462801_7280102167862737793_n-1.png" alt="Hello World"&gt;&lt;p&gt;Salut, moi c'est Jérémie.&lt;/p&gt;
+À la base, il était censé être consacré exclusivement à mes commandes Deliveroo du vendredi soir mais je me suis dit que c'était bête de ne pas y inclure également tous mes petits&lt;/p&gt;&lt;/div&gt;</description><link>http://localhost:2368/une-petite-presentation/</link><guid isPermaLink="false">5a3a9e8faa9a033755260983</guid><dc:creator>Jérémie Zarca</dc:creator><pubDate>Wed, 20 Dec 2017 16:36:33 GMT</pubDate><media:content url="http://localhost:2368/content/images/2017/12/15230654_10154728107462801_7280102167862737793_n-1.png" medium="image"/><content:encoded>&lt;div class="kg-card-markdown"&gt;&lt;img src="http://localhost:2368/content/images/2017/12/15230654_10154728107462801_7280102167862737793_n-1.png" alt="Hello World"&gt;&lt;p&gt;Salut, moi c'est Jérémie.&lt;/p&gt;
 &lt;p&gt;Alors voilà, ça fait un moment que je songeais à commencer un blog.&lt;br&gt;
 À la base, il était censé être consacré exclusivement à mes commandes Deliveroo du vendredi soir mais je me suis dit que c'était bête de ne pas y inclure également tous mes petits bricolage à base de JS et de Raspberry et d'Arduino.&lt;/p&gt;
 &lt;p&gt;Parce que si vous êtes geeks ou développeurs, vous vous reconnaissez forcément dans cette brève description et donc ca devrait également vous plaire.&lt;/p&gt;

@@ -1,40 +1,41 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle</title>
+    <title>Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native</title>
 
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 
     <link rel="shortcut icon" href="../../favicon.png">
 
+    <meta name="description" content="Dans cette partie, nous allons voir ensemble comment intégrer ce modèle dans une application React-Native">
     <link rel="shortcut icon" href="../../favicon.png" type="image/png">
     <link rel="canonical" href="../index.html">
     <meta name="referrer" content="no-referrer-when-downgrade">
     
     <meta property="og:site_name" content="Le Blog du Chabbat">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle">
-    <meta property="og:description" content="Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.">
-    <meta property="og:url" content="http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">
-    <meta property="og:image" content="http://jzarca01.github.io/content/images/2018/03/hotdog-or-not-hotdog-app.jpg">
-    <meta property="article:published_time" content="2018-03-17T12:00:00.000Z">
-    <meta property="article:modified_time" content="2018-03-17T12:05:33.000Z">
+    <meta property="og:title" content="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native">
+    <meta property="og:description" content="Comment intégrer un modèle de classification d'image dans une application React-Native">
+    <meta property="og:url" content="http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/">
+    <meta property="og:image" content="http://jzarca01.github.io/content/images/2018/03/hotdog-3.png">
+    <meta property="article:published_time" content="2018-03-30T14:11:47.000Z">
+    <meta property="article:modified_time" content="2018-03-30T14:17:45.000Z">
     <meta property="article:tag" content="code">
     
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle">
-    <meta name="twitter:description" content="Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.">
-    <meta name="twitter:url" content="http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">
-    <meta name="twitter:image" content="http://jzarca01.github.io/content/images/2018/03/hotdog-or-not-hotdog-app-1.jpg">
+    <meta name="twitter:title" content="Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native">
+    <meta name="twitter:description" content="Comment intégrer un modèle de classification d'image dans une application React-Native">
+    <meta name="twitter:url" content="http://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/">
+    <meta name="twitter:image" content="http://jzarca01.github.io/content/images/2018/03/hotdog-2.png">
     <meta name="twitter:label1" content="Written by">
     <meta name="twitter:data1" content="Jérémie Zarca">
     <meta name="twitter:label2" content="Filed under">
     <meta name="twitter:data2" content="code">
     <meta name="twitter:site" content="@Jeremie__">
     <meta name="twitter:creator" content="@Jeremie__">
-    <meta property="og:image:width" content="1000">
-    <meta property="og:image:height" content="400">
+    <meta property="og:image:width" content="611">
+    <meta property="og:image:height" content="527">
     
     <script type="application/ld+json">
 {
@@ -64,18 +65,18 @@
             "https://twitter.com/Jeremie__"
         ]
     },
-    "headline": "Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle",
-    "url": "http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/",
-    "datePublished": "2018-03-17T12:00:00.000Z",
-    "dateModified": "2018-03-17T12:05:33.000Z",
+    "headline": "Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l&#x27;implémentation avec React-Native",
+    "url": "http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-2-limplementation-avec-react-native/",
+    "datePublished": "2018-03-30T14:11:47.000Z",
+    "dateModified": "2018-03-30T14:17:45.000Z",
     "image": {
         "@type": "ImageObject",
-        "url": "http://localhost:2368/content/images/2018/03/hotdog-or-not-hotdog-app.jpg",
-        "width": 1000,
-        "height": 400
+        "url": "http://localhost:2368/content/images/2018/03/hotdog-1.png",
+        "width": 611,
+        "height": 527
     },
     "keywords": "code",
-    "description": "Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.",
+    "description": "Comment intégrer un modèle de classification d&#x27;image dans une application React-Native",
     "mainEntityOfPage": {
         "@type": "WebPage",
         "@id": "http://localhost:2368/"
@@ -107,100 +108,236 @@
         <article class="post">
 
             <header class="post-header">
-                <h1 class="post-title">Du Machine Learning sur iOS avec CoreML et React-Native: partie 1, créer un modèle</h1>
+                <h1 class="post-title">Du Machine Learning sur iOS avec CoreML et React-Native: partie 2, l'implémentation avec React-Native</h1>
                 <section class="post-meta">
                     <p class="author">by <a href="../../author/jeremie/">Jérémie Zarca</a></p>
-                    <time class="post-date" datetime="2018-03-17">2018-03-17</time>
+                    <time class="post-date" datetime="2018-03-30">2018-03-30</time>
                 </section>
             </header>
             <figure class="post-image">
-                <amp-img src="http://localhost:2368/content/images/2018/03/hotdog-or-not-hotdog-app.jpg" width="600" height="400" layout="responsive"></amp-img>
+                <amp-img src="http://localhost:2368/content/images/2018/03/hotdog-1.png" width="600" height="400" layout="responsive"></amp-img>
             </figure>
             <section class="post-content">
 
-                <div class="kg-card-markdown"><p>Si vous êtes comme moi, et que vous avez toujours rêvé de développer une application capable de différencier un hotdog du teckel de votre voisine, ce tutoriel est pour vous.</p>
-<p>Les solutions de Machine Learning sont depuis longtemps disponibles dans le cloud via des API, mais elles demandaient une connexion internet et leur temps de traitement pouvait s'avérer long et coûteux à la fois.</p>
-<p>Avec la sortie d'iOS 11, Apple a mis à disposition des développeurs sa librairie de Machine Learning, CoreML. Désormais, il n'est plus nécessaire d'avoir un serveur puissant pour traiter les reqûetes ou faire appel à une API tierce. CoreML s'occupe de tout avec la puissance de calcul de votre smartphone.</p>
-<p>Vous êtes curieux de savoir comment l'intégrer dans vos applications ? C'est plus simple que ce que vous pourriez penser.</p>
-<p>Prenons comme exemple, la célèbre application parodique Not Hotdog, découverte dans la série Silicon Valley, qui, lorsque l'utilisateur pointe son smartphone vers un objet, lui dit instantanément si ce dernier regarde un hotdog ou non.</p>
+                <div class="kg-card-markdown"><p>Si vous êtes arrivés à cette partie, ca veut dire que normalement vous avez votre propre modèle de Machine Learning. Si ce n'est pas le cas, je vous invite à lire <a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">la première partie de ce tutoriel</a>.</p>
+<p>Dans cette partie, nous allons voir ensemble comment intégrer ce modèle dans une application React-Native en utilisant la librairie <em>react-native-core-ml-image</em>, qui apporte les bindings au module natif CoreML d'Apple.</p>
 <p></p>
-<h2 id="cequevousallezapprendredanscettepartie">Ce que vous allez apprendre dans cette partie</h2>
+<h2 id="cequevousallezaccomplirdanscettepartie">Ce que vous allez accomplir dans cette partie</h2>
 <ul>
-<li>Installer votre environnement</li>
-<li>Collecter des données</li>
-<li>Créer votre modèle de classification d'image avec Turi Create</li>
+<li>Créer un nouveau projet React-Native</li>
+<li>Configurer Xcode pour faire marcher la librairie de Machine Learning</li>
+<li>Reconnaître un hotdog grâce à la caméra de votre iPhone</li>
 </ul>
 <h2 id="lesprrequis">Les prérequis</h2>
 <ul>
-<li>
-<p>macOS 10.12+</p>
-</li>
-<li>
-<p>ou Linux (avec glibc 2.12+)</p>
-</li>
-<li>
-<p>ou Windows 10 (via WSL)</p>
-</li>
-<li>
-<p>Python 2.7, 3.5 ou 3.6</p>
-</li>
-<li>
-<p>une architecture x86_64</p>
-</li>
+<li>macOS 10.12+</li>
+<li>Xcode 9</li>
+<li>iOS 11+</li>
 </ul>
-<h2 id="questcequeturicreate">Qu'est-ce que Turi Create ?</h2>
-<p>Il s'agit d'un outil qui « simplifie le développement de modèles de machine learning personnalisés », pouvant être ensuite exploités dans des applications utilisant la librairie CoreML.<br>
-Turi Create se base sur le framework de Deep Learning <a href="https://mxnet.apache.org/">MXNet d'Apache</a></p>
-<p>Turi Create met à disposition des développeurs une technologie souple pour classifier des images, détecter des objets, concevoir des systèmes de recommandations, ...<br>
-L'outil est extrêmement simple d'utilisation, flexible, et rapide.</p>
-<h2 id="soninstallation">Son installation</h2>
-<p>Comme pour beaucoup d'outils de Machine Learning, <strong>python</strong> est le langage utilisé. Mais ne vous en faites pas, le code est très simple à comprendre.</p>
-<p>Il est recommandé d'utiliser un environnement virtuel, <strong>virtualenv</strong>, en entrant la commande</p>
-<pre><code>pip install virtualenv
+<h2 id="crerunprojetreactnative">Créer un projet React-Native</h2>
+<p>Tout d'abord, il faudra créer un nouveau projet React-Native.<br>
+Ouvrez votre terminal, naviguez dans votre dossier de projets et entrez la commande suivante:</p>
+<pre><code>react-native init notHotDog (ou tout autre nom)
 </code></pre>
-<p>Si vous n'avez pas pip, le gestionnaire de paquets de Python, vous pouvez l'installer grâce à <a href="https://brew.sh/">Homebrew</a> en entrant la commande</p>
-<pre><code>brew install pip
+<p>Au bout de quelques minutes, tout sera installé et vous serez prêt à passer à la suite.</p>
+<h2 id="installerlalibrairiecoreml">Installer la librairie CoreML</h2>
+<p>Nous allons utiliser la librairie <a href="https://www.npmjs.com/package/react-native-core-ml-image">react-native-core-ml-image</a></p>
+<pre><code>npm install --save react-native-core-ml-image
+react-native link
 </code></pre>
-<p>Puis,</p>
-<pre><code>// Créer un environnement virtuel Python
-cd ~
-virtualenv venv
-
-// Activer votre environnement virtuel
-source ~/venv/bin/activate
-
-// Installer Turi Create
-pip install -U turicreate
-</code></pre>
-<h2 id="collecterdesdonnes">Collecter des données</h2>
-<p>Avant de pouvoir entraîner un modèle, il nous faut des données.</p>
-<p>Ces données, on peut les trouver sur le site <a href="http://localhost:2368/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/www.image-net.org">ImageNet</a> qui est une très large base de données d'images, avec plus de 14 millions de résultats.</p>
-<p>Pour notre projet, nous avons besoin de deux catégories d'images: Hotdog et... Not Hotdog.</p>
-<p>Voici le lien pour la première: <a href="http://www.image-net.org/synset?wnid=n07697537">http://www.image-net.org/synset?wnid=n07697537</a>.</p>
+<p>Allez dans votre projet, puis dans le dossier "ios" et double-cliquez sur le fichier notHotDog.xcodeproj pour l'ouvrir dans Xcode</p>
+<h2 id="configurerleprojet">Configurer le projet</h2>
+<p>Par défaut, les projets en React-Native sont configurés pour utiliser principalement Objective-C. La librairie <em>react-native-core-ml-image</em> étant écrite en Swift, il va falloir changer quelques paramètres dans le projet</p>
+<p>Tout d'abord, il va falloir ajouter un fichier Swift au projet</p>
+<p><br>
+</p>
+<p>Le nom importe peu, il ne sera de toute façon pas utilisé. Un message apparaît alors vous proposant de créer un "Objective-C Bridging Header": c’est le fichier qui sert à faire le lien entre Swift et les fichiers entête des Classes Objective-C</p>
 <p></p>
-<p>On peut également récupérer tous les liens en utilisant l'API publique, via le bouton Download dans l'onglet Downloads</p>
+<p>Enfin, la librairie étant écrite en Swift 4.0, il va falloir spécifier la version de Swift à utiliser (la 3.2 étant la version par défaut).<br>
+Cliquez sur la racine du projet (notHotDog), séléctionnez l'onglet "Build Settings", puis tout en bas, changez la version du langage Swift à utiliser.</p>
 <p></p>
-<p><a href="http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537">http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537</a></p>
-<p>Vous pourrez retrouver sur le repository <a href="https://github.com/jzarca01/turicreate-easy-scripts">turicreate-easy-scripts</a> un ensemble de scripts qui vous faciliteront la vie</p>
-<p>Ainsi, après avoir installé les dépendances, en entrant la commande</p>
-<pre><code>cd download-images
-npm install
+<h2 id="importerlemodlecoremldansleprojet">Importer le modèle CoreML dans le projet</h2>
+<p>Avant de passer à la partie programmation, il ne reste plus qu'à importer notre modèle de classification d'images dans le projet notHotDog.<br>
+Glissez-déposer le modèle (Classifier.mlmodel) et renommez-le notHotDog.mlmodelc (non ce n'est pas une faute de frappe)</p>
+<p></p>
+<p>CoreML ne fonctionne pas directement avec les fichiers *.mlmodel, il faut d'abord les traduire en *.mlmodelc (c pour compiled), mais notre script Python s'en est déjà occupé.</p>
+<pre><code class="language-python"># Export for use in Core ML
+model.export_coreml('Classifier.mlmodel')
+</code></pre>
+<p>Si vous n'avez pas de modèle, je vous invite à lire <a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">la première partie de ce tutoriel</a>, qui vous guidera dans <a href="https://jzarca01.github.io/static/du-machine-learning-sur-ios-avec-coreml-et-react-native-partie-1-creer-un-modele/">la création d'un modèle de classification d'images avec Turi Create</a>.</p>
+<h2 id="autoriserlaccslacamra">Autoriser l'accès à la caméra</h2>
+<p>Dans le fichier Info.plist, cliquez sur le petit plus à la droite de chaque entrée et ajoutez "Privacy - Camera Usage Description" comme montré ci-dessous</p>
+<p></p>
+<p>C'est tout pour la configuration ! Il ne reste plus qu'à implémenter tout cela.</p>
+<p><amp-anim src="https://media.giphy.com/media/QHE5gWI0QjqF2/giphy.gif" alt="gif code" width="720" height="480" layout="responsive"></amp-anim></p>
+<h2 id="implmenterlecode">Implémenter le code</h2>
+<p>La première chose à faire est d'importer la librairie <em>react-native-core-ml-image</em> dans le projet. Pour cet exemple, tout le code se situera dans le fichier App.js</p>
+<pre><code>import CoreMLImage from 'react-native-core-ml-image'
+</code></pre>
+<p>Ensuite, remplacez toute la méthode render() par ce qui vient ci-après:</p>
+<pre><code class="language-javascript">render() {
+    let classification = null;
 
-node imagenet-downloader.js http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=n07697537 hotdog
+    if (this.state.bestMatch) {
+      if (this.state.bestMatch.identifier &amp;&amp; this.state.bestMatch.identifier == "hotdog") {
+        classification = "Hotdog";
+      } else {
+        classification = "Not hotdog";
+      }
+    }
+
+    return (
+      &lt;View style={styles.container}&gt;
+          &lt;CoreMLImage modelFile="notHotDog" onClassification={(evt) =&gt; this.onClassification(evt)}&gt;
+              &lt;View style={styles.container}&gt;
+                &lt;Text style={styles.info}&gt;{classification}&lt;/Text&gt;
+              &lt;/View&gt;
+          &lt;/CoreMLImage&gt;
+      &lt;/View&gt;
+    );
+  }
 </code></pre>
-<p>nous obtiendrons un dossier rempli d'images de hotdogs.</p>
-<p>Il ne reste plus qu'à faire la même chose pour Not Hotdog. Choisissez donc la/les catégories qui vous plaisent le plus et catégorisez-les comme not-hotdog</p>
-<pre><code>node imagenet-downloader.js http://image-net.org/api/text/imagenet.synset.geturls?wnid=n00021939 not-hotdog
+<p>La méthode <em>onClassification</em> nous permet de recevoir des updates quand un nouvel objet a été classifié. Il renvoie les données suivantes:</p>
+<pre><code class="language-json">[{
+    identifier: "hotdog",
+    confidence: 0.87
+},
+{
+    identifier: "not-hotdog",
+    confidence: 0.4
+}]
 </code></pre>
-<h2 id="entranerlemodle">Entraîner le modèle</h2>
-<p>Une fois les images téléchargées et catégorisées, il ne reste plus qu'à entraîner le modèle de classification.</p>
-<p>Pour ce faire, vous pouvez utiliser le script python mis à disposition dans le repository téléchargé précédemment</p>
-<pre><code>cd train-model
-python train-model.py
+<p>Nous n'avons plus qu'à implémenter la méthode <em>onClassification</em> qui se charge de trouver la meilleure classification.</p>
+<pre><code class="language-javascript">onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;&amp; classifications.length) {
+      classifications.map(classification =&gt; {
+        if (!bestMatch || classification.confidence &gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
 </code></pre>
-<p></p>
-<p>Vous obtiendrez au bout d'une dizaine de minutes, ou plus selon le nombre d'images à traiter, un fichier Classifier.mlmodel que l'on utilisera dans la seconde partie de ce tutoriel.</p>
-<p>Merci de m'avoir lu et, si l'article vous a plu, n'hésitez pas à le partager sur les réseaux sociaux.</p>
+<p>Si l'on se base sur les données précédentes, alors bestMatch vaudra</p>
+<pre><code class="language-json">{
+    identifier: "hotdog",
+    confidence: 0.87
+}
+</code></pre>
+<p>Voici le code complet:</p>
+<pre><code class="language-javascript">import React, { Component } from 'react';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
+import idx from 'idx';
+
+const BEST_MATCH_THRESHOLD = 0.5;
+
+import CoreMLImage from "react-native-core-ml-image";
+
+export default class App extends Component&lt;{}&gt; {
+
+  constructor() {
+    super();
+    this.state = {
+      bestMatch: null
+    };
+  }
+
+  onClassification(classifications) {
+    let bestMatch = null;
+
+    if (classifications &amp;&amp; classifications.length) {
+      classifications.map(classification =&gt; {
+        if (!bestMatch || classification.confidence &gt; bestMatch.confidence) {
+          bestMatch = classification;
+        }
+      });
+
+      if (bestMatch.confidence &gt;= BEST_MATCH_THRESHOLD) {
+        this.setState({
+          bestMatch: bestMatch
+        });
+      }
+      else {
+        this.setState({
+          bestMatch: null
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        bestMatch: null
+      });
+    }
+  }
+
+  classify() {
+    if (idx(this.state, _ =&gt; _.bestMatch.identifier) ) {
+      if (this.state.bestMatch.identifier == "hotdog") {
+        return "Hotdog";
+      } else {
+        return "Not hotdog";
+      }
+    }
+  }
+
+
+  render() {
+    return (
+      &lt;View style={styles.container}&gt;
+          &lt;CoreMLImage modelFile="notHotDog" onClassification={(evt) =&gt; this.onClassification(evt)}&gt;
+              &lt;View style={styles.container}&gt;
+                &lt;Text style={styles.info}&gt;{classify()}&lt;/Text&gt;
+              &lt;/View&gt;
+          &lt;/CoreMLImage&gt;
+      &lt;/View&gt;
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  info: {
+    fontSize: 20,
+    color: "#ffffff",
+    textAlign: 'center',
+    fontWeight: "900",
+    margin: 10,
+  }
+});
+</code></pre>
+<p>Il ne vous reste plus qu'à éxecuter le code sur votre iPhone (cela ne fonctionnera pas sur le simulateur).</p>
+<p>Si vous avez tout bien fait, l'app vous demandera la permission d'accéder à votre appareil photo et vous pourrez alors distinguer un hotdog du teckel de votre voisine.</p>
+<p>Merci de m'avoir lu, et si l'article vous a plu, n'hésitez pas à le partager sur les réseaux sociaux.</p>
 <p>Jérémie.</p>
 </div>
 
