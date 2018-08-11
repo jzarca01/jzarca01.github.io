@@ -8,8 +8,8 @@
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" href="../assets/css/normalize.css?v=7e5311d6b6">
-    <link rel="stylesheet" type="text/css" href="../assets/css/screen.css?v=7e5311d6b6">
+    <link rel="stylesheet" type="text/css" href="../assets/css/normalize.css?v=bd73790bc3">
+    <link rel="stylesheet" type="text/css" href="../assets/css/screen.css?v=bd73790bc3">
 
     
 
@@ -25,7 +25,7 @@
     <meta property="og:url" content="http://jzarca01.github.io/static/creez-votre-premier-skill-pour-alexa-partie-2/">
     <meta property="og:image" content="http://jzarca01.github.io/content/images/2017/12/amazonecho_4-100599473-orig.jpg">
     <meta property="article:published_time" content="2017-12-21T18:30:00.000Z">
-    <meta property="article:modified_time" content="2017-12-21T18:29:59.000Z">
+    <meta property="article:modified_time" content="2018-08-11T11:22:13.000Z">
     <meta property="article:tag" content="code">
     
     <meta name="twitter:card" content="summary_large_image">
@@ -73,7 +73,7 @@
     "headline": "Créez votre premier skill pour Alexa : Partie 2, la mise en pratique",
     "url": "http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-2/",
     "datePublished": "2017-12-21T18:30:00.000Z",
-    "dateModified": "2017-12-21T18:29:59.000Z",
+    "dateModified": "2018-08-11T11:22:13.000Z",
     "image": {
         "@type": "ImageObject",
         "url": "http://localhost:2368/content/images/2017/12/amazonecho_4-100599473-orig.jpg",
@@ -89,7 +89,7 @@
 }
     </script>
 
-    <script type="text/javascript" src="../public/ghost-sdk.js?v=7e5311d6b6"></script>
+    <script type="text/javascript" src="../public/ghost-sdk.js?v=bd73790bc3"></script>
 <script type="text/javascript">
 ghost.init({
 	clientId: "ghost-frontend",
@@ -134,8 +134,7 @@ ghost.init({
         </header>
 
         <section class="post-content">
-            <div class="kg-card-markdown"><p><em>Cet article est paru en premier lieu sur le blog de JS-Republic: <a href="http://blog.js-republic.com/alexa-creer-votre-skill-partie-2/">http://blog.js-republic.com/alexa-creer-votre-skill-partie-2/</a></em></p>
-<p>Dans cette partie nous allons voir comment créer votre premier skill pour connaître la météo dans n’importe quelle ville d’Europe et à la fin de cet article vous pourrez repartir avec, c’est promis.</p>
+            <div class="kg-card-markdown"><p>Dans cette partie nous allons voir comment créer votre premier skill pour connaître la météo dans n’importe quelle ville d’Europe et à la fin de cet article vous pourrez repartir avec, c’est promis.</p>
 <p>Maintenant que vous avez assimilé tous les concepts importants associés à la création de skills pour Alexa, nous pouvons enfin rentrer dans le vif du sujet. Si ce n’est pas le cas, n’hésitez surtout pas à relire la première partie de cet article.</p>
 <h3 id="lesprrequispourcettepartie">Les pré-requis pour cette partie :</h3>
 <p>– Un compte sur le portail développeur Amazon (<a href="https://developer.amazon.com/edw/home.html#/">https://developer.amazon.com/edw/home.html#/</a>)<br>
@@ -177,10 +176,10 @@ module.exports = function(parsedMessage) {
           .then(item =&gt; item.condition)
           .then(condition =&gt; {
             //console.log('info', condition)
-            return `It is currently ${condition.text} with ${condition.temp} degrees in ${parsedMessage.intent.slots.Location.value}`
+            return `Il fait actuellement ${condition.text} avec ${condition.temp} degrés à ${parsedMessage.intent.slots.Location.value}`
           })
           .catch(() =&gt; {
-            return `Hm, I can't find any weather data for ${parsedMessage.intent.slots.Location.value}.`
+            return `Hum, je ne trouve aucune donnée pour ${parsedMessage.intent.slots.Location.value}.`
           })
 }
 </code></pre>
@@ -201,11 +200,11 @@ module.exports = function(parsedMessage) {
 }
 </code></pre>
 <p>Et dans le fichier de Sample Utterances, nous décrivions différentes manières d’appeler cette fonction à partir d’Alexa.</p>
-<pre><code>GetWeather what is the weather in {Location}
-GetWeather weather in {Location}
+<pre><code>GetWeather quelle est la météo à {Location}
+GetWeather météo à {Location}
 </code></pre>
 <p>Ainsi, lorsque le skill est appelé par l’utilisateur, il saura quelle fonction exécuter.<br>
-Lorsque l’utilisateur dira <strong>« Alexa, ask My Awesome Skill for the weather in Paris »</strong>, notre skill renverra <strong>« It is currently Sunny with 20 degrees in Paris »</strong>.</p>
+Lorsque l’utilisateur dira <strong>« Alexa, demande à Mon Super Skill la météo à Paris »</strong>, notre skill renverra <strong>« Il fait actuellement Sunny avec 20 degrés à Paris »</strong>.</p>
 <p><img src="https://media.giphy.com/media/g3MjnaLkNl19C/giphy.gif" alt=""></p>
 <p>Il ne vous reste plus qu’à zipper votre projet pour passer à la suite.</p>
 <p>Petite astuce pour les utilisateurs de Mac et de Linux: à partir de votre terminal, depuis le répertoire du projet, entrez la commande suivante pour zipper le projet.</p>
@@ -322,6 +321,6 @@ s.setAttribute('data-timestamp', +new Date());
         }
     </script>
     <script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
-    <script type="text/javascript" src="../assets/js/index.js?v=7e5311d6b6"></script>
+    <script type="text/javascript" src="../assets/js/index.js?v=bd73790bc3"></script>
 
 </body>
