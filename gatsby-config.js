@@ -3,10 +3,10 @@ const path = require("path")
 module.exports = {
   siteMetadata: {
     title: `Jérémie Zarca`,
-    subtitle: `Fullstack JavaScript Developer (React / Vue.js / NodeJS )`,
+    subtitle: `Fullstack JavaScript Developer (React / Vue.js / Node.js)`,
     description: `Personal website and blog`,
     whatIDo: `I love to create stuffs, analyze and reverse-engineer APIs and find new usages for IoT devices.`,
-    hirePhrasing: `Oh and I'm also available right now !`,
+    hirePhrasing: `Oh and I'm also available for freelance work right now !`,
     author: `@Jeremie__`,
     social: [
       { network: "linkedin", url: `https://www.linkedin.com/in/jérémie-zarca-9385a75b/` },

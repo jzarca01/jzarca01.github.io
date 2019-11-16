@@ -1,7 +1,6 @@
 import React from "react"
 
 import LandingBio from "../components/landing-bio"
-import Social from "../components/social"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
