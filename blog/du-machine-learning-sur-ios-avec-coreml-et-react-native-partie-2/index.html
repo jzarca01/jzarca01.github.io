@@ -13,23 +13,23 @@ react-native <span class="token function">link</span></code><span aria-hidden="t
 <h2>Configurer le projet</h2>
 <p>Par défaut, les projets en React-Native sont configurés pour utiliser principalement Objective-C. La librairie react-native-core-ml-image étant écrite en Swift, il va falloir changer quelques paramètres dans le projet</p>
 <p>Tout d’abord, il va falloir ajouter un fichier Swift au projet</p>
-<p><img src="../images/2018/10/config.png" alt="config"></p>
-<p><img src="../images/2018/10/config2.png" alt="config2"></p>
+<p><img src="/static/config-00268a919753d983f9c11a1a0f564221.png" alt="config"></p>
+<p><img src="/static/config2-e95b9b9fab87a879c39e678921ae1a80.png" alt="config2"></p>
 <p>Le nom importe peu, il ne sera de toute façon pas utilisé. Un message apparaît alors vous proposant de créer un « Objective-C Bridging Header » : c’est le fichier qui sert à faire le lien entre Swift et les fichiers entête des Classes Objective-C</p>
-<p><img src="../images/2018/10/bridging_header.png" alt="bridging_header"></p>
+<p><img src="/static/bridging_header-802d5dc9d9a07bf8ae7e8e9e30b2a60a.png" alt="bridging_header"></p>
 <p>Enfin, la librairie étant écrite en Swift 4.0, il va falloir spécifier la version de Swift à utiliser (la 3.2 étant la version par défaut).
 Cliquez sur la racine du projet (notHotDog), séléctionnez l’onglet « Build Settings », puis tout en bas, changez la version du langage Swift à utiliser.</p>
-<p><img src="../images/2018/10/swift_version.png" alt="swift_version"></p>
+<p><img src="/static/swift_version-153127209a2f0e464d120a953e7360fb.png" alt="swift_version"></p>
 <h3>Importer le modèle CoreML dans le projet</h3>
 <p>Avant de passer à la partie programmation, il ne reste plus qu’à importer notre modèle de classification d’images dans le projet notHotDog.
 Glissez-déposez le modèle Classifier.mlmodel et renommez-le notHotDog.mlmodelc (non, ce n’est pas une faute de frappe)</p>
-<p><img src="../images/2018/10/mlmodelc.png" alt="mlmodelc"></p>
+<p><img src="/static/mlmodelc-8973b27af020991d82f39380ba1db85b.png" alt="mlmodelc"></p>
 <p>CoreML ne fonctionne pas directement avec les fichiers <em>.mlmodel, il faut d’abord les traduire en _.mlmodelc (c pour compiled), mais notre script Python s’en est déjà occupé. (cf. dernière ligne du fichier train</em>model.py)</p>
 <div class="gatsby-highlight" data-language="python"><pre style="counter-reset: linenumber NaN" class="language-python line-numbers"><code class="language-python"><span class="token comment"># Export for use in Core ML</span>
 model<span class="token punctuation">.</span>export_coreml<span class="token punctuation">(</span><span class="token string">'Classifier.mlmodel'</span><span class="token punctuation">)</span></code><span aria-hidden="true" class="line-numbers-rows" style="white-space: normal; width: auto; left: 0;"><span></span><span></span></span></pre></div>
 <h3>Autoriser l'accès à la caméra</h3>
 <p>Dans le fichier Info.plist, cliquez sur le petit plus à la droite de chaque entrée et ajoutez « Privacy – Camera Usage Description » comme montré ci-dessous</p>
-<p><img src="../images/2018/10/camera.png" alt="camera"></p>
+<p><img src="/static/camera-c1293f6c9b4b736b6e535a681de91522.png" alt="camera"></p>
 <p>C’est tout pour la configuration ! Il ne reste plus qu’à implémenter tout cela.</p>
 <p><img src="https://i0.wp.com/media.giphy.com/media/QHE5gWI0QjqF2/giphy.gif?zoom=2&#x26;w=1500&#x26;ssl=1" alt="giphy"></p>
 <h2>Implémenter le code</h2>
