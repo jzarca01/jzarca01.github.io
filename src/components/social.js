@@ -105,8 +105,8 @@ const Social = () => (
           <Container>
             {social
               .filter(network => network.url)
-              .map(network => (
-                <StyledSocial url={network.url} bgColor="#000" />
+              .map((network, index) => (
+                <StyledSocial key={index} url={network.url} bgColor="#000" />
               ))}
             <BmcButtonLink
               target="_blank"
