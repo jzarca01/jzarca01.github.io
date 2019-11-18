@@ -22,6 +22,7 @@ const StyledInput = styled.input`
   border-bottom: 2px solid black;
   outline: none;
   height: 30px;
+  margin: 0 10px;
 `
 
 const StyledTextarea = styled.textarea`
@@ -37,6 +38,7 @@ const HiddenInput = styled.input`
 const StyledSelect = styled.select`
   border: none;
   border-bottom: 2px dashed black;
+  margin: 0 10px;
 `
 const parameters = ["to", "subject", "body"]
 
