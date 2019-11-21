@@ -140,6 +140,7 @@ const ContactPage = () => {
                         ref={register({ required: true })}
                       >
                         <option value="node-bird">node-bird</option>
+                        <option value="node-bolt">node-bolt</option>
                       </StyledSelect>
                     </React.Fragment>
                   )}
