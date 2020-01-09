@@ -141,6 +141,7 @@ const ContactPage = () => {
                       >
                         <option value="node-bird">node-bird</option>
                         <option value="node-bolt">node-bolt</option>
+                        <option value="node-wind">node-wind</option>
                       </StyledSelect>
                     </React.Fragment>
                   )}
