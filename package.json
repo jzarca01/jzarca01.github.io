@@ -30,11 +30,11 @@
     "typeface-nunito": "0.0.72"
   },
   "devDependencies": {
-    "gatsby": "^2.13.1",
+    "gatsby": "^2.17.11",
     "gh-pages": "^2.1.1",
     "prettier": "^1.19.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   },
   "keywords": [
     "gatsby"
