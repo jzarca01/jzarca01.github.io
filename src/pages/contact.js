@@ -70,7 +70,7 @@ const ContactPage = () => {
     return `${subject} : ${jobTitle ? jobTitle : product}`
   }
 
-  const buildBody = data => `Hi%20J%C3%A9r%C3%A9mie%2C%20%20%0A%0AMy%20name%20is%20${encodeURIComponent(data.name)}%20and%20I%20wanted%20to%20discuss%20about%20${encodeURIComponent(data.subject)}%20as%20%20${encodeURIComponent(data.jobTitle ? data.jobTitle : data.product)}%20%20%0A%0AHere's%20what%20I%20call%20tell%20you%20so%20far%20%3A%20${encodeURIComponent(data.project)}%20%20%0A%0AYou%20can%20reply%20at%20my%20email%20address%20%20${encodeURIComponent(data.email)}%20%20%0A%0ARegards%2C%0A${encodeURIComponent(data.name)}`
+  const buildBody = data => `Hi%20J%C3%A9r%C3%A9mie%2C%20%20%0A%0AMy%20name%20is%20${encodeURIComponent(data.name)}%20and%20I%20wanted%20to%20discuss%20about%20${encodeURIComponent(data.subject)}%20${data.product ? 'for': 'as'}%20%20${encodeURIComponent(data.jobTitle ? data.jobTitle : data.product)}%20%20%0A%0AHere's%20what%20I%20call%20tell%20you%20so%20far%20%3A%20${encodeURIComponent(data.project)}%20%20%0A%0AYou%20can%20reply%20at%20my%20email%20address%20%20${encodeURIComponent(data.email)}%20%20%0A%0ARegards%2C%0A${encodeURIComponent(data.name)}`
 
 
   const buildMailto = values => {
