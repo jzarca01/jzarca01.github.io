@@ -9,6 +9,8 @@ module.exports = {
     hirePhrasing: `Oh and I'm also available for freelance work right now !`,
     author: `@Jeremie__`,
     email: `jeremie.zarca@gmail.com`,
+    image: "/images/social.jpg",
+    siteUrl: 'https://jzarca01.github.io',
     social: [
       { network: "linkedin", url: `https://www.linkedin.com/in/jérémie-zarca-9385a75b/` },
       { network: "github", url: `https://github.com/jzarca01` },
@@ -59,7 +61,7 @@ module.exports = {
         background_color: `#663399`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: path.resolve(__dirname, `src/images/gatsby-icon.png`), // This path is relative to the root of the site.
+        icon: path.resolve(__dirname, `static/images/gatsby-icon.png`), // This path is relative to the root of the site.
       },
     },
     {

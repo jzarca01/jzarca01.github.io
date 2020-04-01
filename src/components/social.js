@@ -6,6 +6,9 @@ import { SocialIcon } from "react-social-icons"
 const Container = styled.div`
   text-align: center;
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
 `
 
 const OuterContainer = styled.div`
@@ -82,6 +85,7 @@ const BmcButtonImg = styled.img`
 
 const StyledSocial = styled(SocialIcon)`
   margin: 0 15px;
+  display: inline-flex !important;
 `
 
 const Social = () => (
@@ -103,11 +107,13 @@ const Social = () => (
       return (
         <OuterContainer>
           <Container>
-            {social
-              .filter(network => network.url)
-              .map((network, index) => (
-                <StyledSocial key={index} url={network.url} bgColor="#000" />
-              ))}
+            <div style={{marginBottom: 10}}>
+              {social
+                .filter(network => network.url)
+                .map((network, index) => (
+                  <StyledSocial key={index} url={network.url} bgColor="#000" />
+                ))}
+            </div>
             <BmcButtonLink
               target="_blank"
               href="https://www.buymeacoffee.com/jzarca01"

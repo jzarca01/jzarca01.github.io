@@ -10,6 +10,7 @@ import SEO from "../components/seo"
 const Content = styled.div`
   margin: 0 auto;
   max-width: 860px;
+  min-height: 80vh;
   padding: 1.45rem 1.0875rem;
 `
 
@@ -28,6 +29,8 @@ const StyledInput = styled.input`
 const StyledTextarea = styled.textarea`
   border: none;
   border-bottom: 2px solid black;
+  border-left: 1px solid lightgrey;
+  border-right: 1px solid lightgrey;
   outline: none;
 `
 

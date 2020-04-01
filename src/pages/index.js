@@ -13,6 +13,7 @@ const IndexPage = () => (
         `jeremie zarca`,
         `jzarca01`,
         `node-bird`,
+        `mobility api`,
         `vetecey`,
         `bacchux`,
         `zarca`,
