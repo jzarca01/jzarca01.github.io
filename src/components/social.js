@@ -107,11 +107,11 @@ const Social = () => (
       return (
         <OuterContainer>
           <Container>
-            <div style={{marginBottom: 10}}>
+            <div>
               {social
                 .filter(network => network.url)
                 .map((network, index) => (
-                  <StyledSocial key={index} url={network.url} bgColor="#000" />
+                  <StyledSocial key={index} url={network.url} bgColor="#fff" fgColor="#000" />
                 ))}
             </div>
             <BmcButtonLink

@@ -27,10 +27,7 @@ const StyledInput = styled.input`
 `
 
 const StyledTextarea = styled.textarea`
-  border: none;
-  border-bottom: 2px solid black;
-  border-left: 1px solid lightgrey;
-  border-right: 1px solid lightgrey;
+  border: 2px solid black;
   outline: none;
 `
 
@@ -42,6 +39,10 @@ const StyledSelect = styled.select`
   border: none;
   border-bottom: 2px dashed black;
   margin: 0 10px;
+
+  &:focus {
+    outline: none;
+  }
 `
 const parameters = ["to", "subject", "body"]
 
@@ -56,8 +57,6 @@ const ContactPage = () => {
   const { register, handleSubmit } = useForm() // initialise the hook
 
   const onSubmit = form => {
-    console.log("form", form)
-    console.log(buildMailto(form))
     window.open(buildMailto(form), '_blank');
 
   }

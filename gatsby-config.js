@@ -2,20 +2,19 @@ const path = require("path")
 
 module.exports = {
   siteMetadata: {
-    title: `Jérémie Zarca`,
-    subtitle: `Fullstack JavaScript Developer (React / Vue.js / Node.js)`,
+    title: `Jérémie`,
+    subtitle: `Fullstack JavaScript Developer (React / React-Native / Vue.js / Node.js)`,
     description: `Personal website and blog`,
     whatIDo: `I love to create stuffs, analyze and reverse-engineer APIs and find new usages for IoT devices.`,
-    hirePhrasing: `Oh and I'm also available for freelance work right now !`,
+    hirePhrasing: `Oh and I'm currently NOT available for hire`,
     author: `@Jeremie__`,
     email: `jeremie.zarca@gmail.com`,
     image: "/images/social.jpg",
     siteUrl: 'https://jzarca01.github.io',
     social: [
-      { network: "linkedin", url: `https://www.linkedin.com/in/jérémie-zarca-9385a75b/` },
+      { network: "linkedin", url: `https://www.linkedin.com/in/jérémie-z-9385a75b/` },
       { network: "github", url: `https://github.com/jzarca01` },
       { network: "twitter", url: `https://twitter.com/Jeremie__`},
-      { network: "email", url: `mailto:jeremie.zarca@gmail.com`}
     ],
   },
   plugins: [
