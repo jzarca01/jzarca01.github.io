@@ -1,0 +1,101 @@
+---
+import BaseHead from '../components/BaseHead.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts'
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <h1>Hi ! I'm Jérémie</h1>
+      <p>
+        I'm a Senior Full Stack Engineer with over 10 years of experience
+        developing innovative technical solutions. Expert in React, Next.js,
+        Node.js, TypeScript, and Python, I design and deliver high-quality code
+        that solves complex problems with creativity.
+      </p><p>
+        Passionate about the JavaScript ecosystem, I actively contribute to the
+        community as a co-organizer of <a
+          href='https://www.meetup.com/react-paris/'
+          target='_blank'>React Paris meetups</a
+        >. My approach combines technical expertise, strategic vision, and
+        effective collaboration to transform ambitious concepts into performant
+        and scalable applications.
+      </p>
+      <p>
+        Here are a few projects i am/was involved with:
+        <ul>
+          <li>
+            I <a
+              href='https://www.instagram.com/p/C9j6UeZsqnq/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=='
+              target='_blank'>roast</a
+            > and sell coffee @ <a
+              href='https://www.sayang.coffee'
+              target='_blank'>Sayang Coffee</a
+            >,
+          </li>
+          <li>
+            I <a
+              href='https://github.com/jzarca01/artisan-sandboxsmart'
+              target='_blank'>reverse-engineered my bluetooth home roaster</a
+            > using man-in-the-middle and deobfuscation techniques, Python and Websockets
+            to be compatible with <a
+              href='https://artisan-scope.org'
+              target='_blank'>Artisan</a
+            >, an open-source roasting tool,
+          </li>
+          <li>
+            I created a <a
+              href='https://github.com/jzarca01/houmous-as-a-service'
+              target='_blank'>tool to order hummus</a
+            > from your terminal or <a href="https://www.icloud.com/shortcuts/1c386a2eb14b4e219f4ae8166e61e970" target="_blank">Apple Shortcuts</a> using Node.js, Stripe and Google Cloud Functions,
+          </li>
+          <li>
+            I was the founder of <a
+              href='https://www.jaimelesstartups.fr/vetecey-appli-comparateur-prix-vtc/'
+              target='_blank'>Vetecey</a
+            >,a price comparison service for mobility apps. A progressive webapp
+            was built with React, a <a
+              href='https://github.com/jzarca01/expo-vetecey'
+              target='_blank'>mobile app</a
+            > with Expo/React-Native, API were reverse-engineered and the backend
+            was written in Node.js and hosted on Heroku,
+          </li>
+          <li>
+            I built a <a
+              href='https://web.archive.org/web/20230130022325/https://www.notnow.email/'
+              target='_blank'>Notnow.email</a
+            >, a low-tech service to help you read more, built with Node.js,
+            Express, Firestore and Google Cloud Functions on top of <a
+              href='https://getpocket.com'
+              target='_blank'>Pocket</a
+            >.
+          </li>
+          <li>
+            I built a <a
+              href='https://github.com/jzarca01/paris-masque'
+              target='_blank'>mobile app</a
+            > using Expo/React-Native and Open Data during the COVID epidemic to
+            notify the user when he entered a zone where the mask was mandatory in
+            Paris
+          </li>
+          <li>
+            I reverse-engineered and licensed <a
+              href='https://github.com/topics/mobility-api'
+              target='_blank'>API wrappers for several mobility services</a
+            > to be used by students and startups using Node.js, man-in-the-middle
+            and deobfuscation techniques.
+          </li>
+        </ul>
+      </p>
+    </main>
+    <Footer />
+  </body>
+</html>
+´
