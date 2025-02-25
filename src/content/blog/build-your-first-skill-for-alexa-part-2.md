@@ -1,13 +1,13 @@
 ---
 title: "Create Your First Alexa Skill: Part 2, Implementation"
-description: 'In this part we will see how to create your first skill to know the weather in any city in Europe and at the end of this article you will be able to take it with you, that's a promise.'
+description: "In this part we will see how to create your first skill to know the weather in any city in Europe and at the end of this article you will be able to take it with you, that's a promise."
 pubDate: "Dec 22 2017"
 heroImage: 'https://content.instructables.com/F74/TDYC/K2GAAFQY/F74TDYCK2GAAFQY.jpg'
 ---
 
 In this part we will see how to create your first skill to know the weather in any city in Europe and at the end of this article you will be able to take it with you, that's a promise.
 
-Now that you have assimilated all the important concepts associated with creating skills for Alexa, we can finally get to the heart of the matter. If not, please don't hesitate to reread the first part of this article, at this address: [http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-1/](http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-1/).
+Now that you have assimilated all the important concepts associated with creating skills for Alexa, we can finally get to the heart of the matter. If not, please don't hesitate to reread the first part of this article, at this address: [https://jzarca01.github.io/blog/build-your-first-skill-for-alexa-part-1/](https://jzarca01.github.io/blog/build-your-first-skill-for-alexa-part-1/).
 
 ### Prerequisites for this part:
 
@@ -72,7 +72,7 @@ module.exports = function(parsedMessage) {
 }
 ```
 
-You remember the concept of Intent, Slots, and Utterances, don't you? If not, I invite you to reread the corresponding sections in the [first part of this article](http://localhost:2368/creez-votre-premier-skill-pour-alexa-partie-1/).
+You remember the concept of Intent, Slots, and Utterances, don't you? If not, I invite you to reread the corresponding sections in the [first part of this article](https://jzarca01.github.io/blog/build-your-first-skill-for-alexa-part-1/).
 
 In the Intent Schema, we had defined the GetWeather function that took as a Slot a Location object of type AMAZON.EUROPE_CITY
 

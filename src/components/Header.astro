@@ -5,11 +5,19 @@ import { SITE_TITLE } from '../consts'
 
 <header>
   <nav>
-    <h2><a href='/'>{SITE_TITLE}</a></h2>
+    <h2 class='header'>
+      <a href='/'
+        ><div class='title'>{SITE_TITLE}</div><img
+          class='logo'
+          alt='jzarca01'
+          src='/header-logo.jpeg'
+        /></a>
+    </h2>
     <div class='internal-links'>
       <HeaderLink href='/'>Home</HeaderLink>
       <HeaderLink href='/blog'>Blog</HeaderLink>
-      <HeaderLink href="/about">Contact Me</HeaderLink>
+      <HeaderLink href='/talks'>Talks</HeaderLink>
+      <HeaderLink href='/about'>Contact me</HeaderLink>
     </div>
     <div class='social-links'>
       <a href='https://www.sayang.coffee/' target='_blank'>
@@ -77,8 +85,23 @@ import { SITE_TITLE } from '../consts'
   .social-links a {
     display: flex;
   }
-  @media (max-width: 720px) {
-    .social-links {
+  .header .logo {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  @media (max-width: 855px) {
+    .social-links,
+    .header .title {
+      display: none;
+    }
+    nav {
+      justify-content: left;
+    }
+  }
+  @media (min-width: 855px) {
+    .header .logo {
       display: none;
     }
   }
