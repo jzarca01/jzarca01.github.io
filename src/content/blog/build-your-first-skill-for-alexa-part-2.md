@@ -2,7 +2,7 @@
 title: "Create Your First Alexa Skill: Part 2, Implementation"
 description: "In this part we will see how to create your first skill to know the weather in any city in Europe and at the end of this article you will be able to take it with you, that's a promise."
 pubDate: "Dec 22 2017"
-heroImage: 'https://content.instructables.com/F74/TDYC/K2GAAFQY/F74TDYCK2GAAFQY.jpg'
+heroImage: 'https://www.iot-experiments.com/content/images/size/w2000/2018/07/amazon-echo-dot-alexa.jpg'
 ---
 
 In this part we will see how to create your first skill to know the weather in any city in Europe and at the end of this article you will be able to take it with you, that's a promise.
