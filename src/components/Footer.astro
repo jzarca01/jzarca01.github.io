@@ -3,7 +3,8 @@ const today = new Date();
 ---
 
 <footer>
-	&copy; {today.getFullYear()} Jérémie Zarca. All rights reserved.
+	<div>This blog was built using <a href="https://astro.build" target="_blank">Astro</a> because I liked <a href="https://www.youtube.com/watch?v=OB5gASbxm5M" target="_blank">this presentation</a>.</div>
+	<div>&copy; {today.getFullYear()} Jérémie Zarca. All rights reserved.</div>
 	<div class="social-links">
 		<a href="https://www.sayang.coffee/" target="_blank">
 				<span class="sr-only">Buy my coffee</span>
@@ -39,6 +40,7 @@ const today = new Date();
 		color: rgb(var(--gray));
 		text-align: center;
 	}
+
 	.social-links {
 		display: flex;
 		justify-content: center;
